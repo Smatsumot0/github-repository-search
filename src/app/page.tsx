@@ -1,4 +1,4 @@
-import { Footer, Header, Main, SearchInput } from "@/components"
+import { Footer, Header, Main, SearchInput, SearchResults } from "@/components"
 
 export default function Home() {
   return (
@@ -7,6 +7,9 @@ export default function Home() {
       <Main>
         <section>
           <SearchInput />
+        </section>
+        <section>
+          <SearchResults repositories={[]} />
         </section>
       </Main>
       <Footer />
