@@ -1,0 +1,5 @@
+.main {
+  padding-block-start: var(--space-8);
+  padding-block-end: var(--space-10);
+}
+

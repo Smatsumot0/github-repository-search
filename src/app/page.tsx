@@ -1,10 +1,10 @@
-import { Footer, Header } from "@/components"
+import { Footer, Header, Main } from "@/components"
 
 export default function Home() {
   return (
     <div>
       <Header />
-      <main className="content-width"></main>
+      <Main></Main>
       <Footer />
     </div>
   )
