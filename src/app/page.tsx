@@ -1,16 +1,19 @@
-import { Footer, Header, Main, SearchInput, SearchResults } from "@/components"
+import { Footer, Header, Main } from "@/components"
+import { RepositorySearch } from "@/features/repository-search"
 
-export default function Home() {
+type HomeProps = {
+  searchParams: Promise<{
+    q?: string
+  }>
+}
+
+export default async function Home({ searchParams }: HomeProps) {
+  const params = await searchParams
   return (
     <div>
       <Header />
       <Main>
-        <section>
-          <SearchInput />
-        </section>
-        <section>
-          <SearchResults repositories={[]} />
-        </section>
+        <RepositorySearch query={params.q ?? ""} />
       </Main>
       <Footer />
     </div>

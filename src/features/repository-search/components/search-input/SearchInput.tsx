@@ -4,13 +4,14 @@ import { debounce } from "@/lib/utils/debounce"
 import { useRouter } from "next/navigation"
 import { ChangeEvent, useMemo, useState } from "react"
 import styles from "./SearchInput.module.css"
+import {
+  MIN_SEARCH_QUERY_LENGTH,
+  SEARCH_DEBOUNCE_DELAY_MS,
+} from "@/lib/constants/search"
 
 type SearchInputProps = {
   defaultValue?: string
 }
-
-const MIN_SEARCH_LENGTH = 2
-const SEARCH_DELAY_MS = 400
 
 export function SearchInput({ defaultValue = "" }: SearchInputProps) {
   const router = useRouter()
@@ -19,13 +20,13 @@ export function SearchInput({ defaultValue = "" }: SearchInputProps) {
   const debouncedSearch = useMemo(
     () =>
       debounce((query: string) => {
-        if (query.length < MIN_SEARCH_LENGTH) {
+        if (query.length < MIN_SEARCH_QUERY_LENGTH) {
           router.replace("/")
           return
         }
 
         router.replace(`/?q=${encodeURIComponent(query)}`)
-      }, SEARCH_DELAY_MS),
+      }, SEARCH_DEBOUNCE_DELAY_MS),
     [router],
   )
 

@@ -1,6 +1,7 @@
 import { Repository } from "@/lib/github/types"
 import styles from "./SearchResults.module.css"
 import Link from "next/link"
+import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
 
 type SearchResultsProps = {
   repositories: Repository[]
@@ -9,7 +10,7 @@ type SearchResultsProps = {
 
 export function SearchResults({ repositories, query }: SearchResultsProps) {
   // 未検索
-  if (!query || query.length < 2) {
+  if (!query || query.length < MIN_SEARCH_QUERY_LENGTH) {
     return (
       <p className={styles.message}>
         2文字以上入力してリポジトリを検索してください
@@ -26,7 +27,7 @@ export function SearchResults({ repositories, query }: SearchResultsProps) {
 
   // 検索結果あり
   return (
-    <ul className={styles.list}>
+    <ul className={styles.list} aria-label="検索結果">
       {repositories.map((repository) => (
         <li key={repository.id} className={styles.item}>
           <Link
