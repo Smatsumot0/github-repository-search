@@ -1,0 +1,100 @@
+.language {
+  --language-color: var(--color-lang-other);
+
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.language::before {
+  content: "";
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--language-color);
+}
+
+.language[data-language="TypeScript"] {
+  --language-color: var(--color-lang-typescript);
+}
+
+.language[data-language="JavaScript"] {
+  --language-color: var(--color-lang-javascript);
+}
+
+.language[data-language="Python"] {
+  --language-color: var(--color-lang-python);
+}
+
+.language[data-language="Java"] {
+  --language-color: var(--color-lang-java);
+}
+
+.language[data-language="C#"] {
+  --language-color: var(--color-lang-csharp);
+}
+
+.language[data-language="C++"] {
+  --language-color: var(--color-lang-cpp);
+}
+
+.language[data-language="C"] {
+  --language-color: var(--color-lang-c);
+}
+
+.language[data-language="Go"] {
+  --language-color: var(--color-lang-go);
+}
+
+.language[data-language="Rust"] {
+  --language-color: var(--color-lang-rust);
+}
+
+.language[data-language="Ruby"] {
+  --language-color: var(--color-lang-ruby);
+}
+
+.language[data-language="PHP"] {
+  --language-color: var(--color-lang-php);
+}
+
+.language[data-language="Swift"] {
+  --language-color: var(--color-lang-swift);
+}
+
+.language[data-language="Kotlin"] {
+  --language-color: var(--color-lang-kotlin);
+}
+
+.language[data-language="Dart"] {
+  --language-color: var(--color-lang-dart);
+}
+
+.language[data-language="HTML"] {
+  --language-color: var(--color-lang-html);
+}
+
+.language[data-language="CSS"] {
+  --language-color: var(--color-lang-css);
+}
+
+.language[data-language="SCSS"] {
+  --language-color: var(--color-lang-scss);
+}
+
+.language[data-language="Vue"] {
+  --language-color: var(--color-lang-vue);
+}
+
+.language[data-language="Svelte"] {
+  --language-color: var(--color-lang-svelte);
+}
+
+.language[data-language="Astro"] {
+  --language-color: var(--color-lang-astro);
+}
+
+.language[data-language="Shell"] {
+  --language-color: var(--color-lang-shell);
+}
