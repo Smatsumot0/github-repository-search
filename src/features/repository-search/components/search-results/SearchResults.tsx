@@ -1,7 +1,7 @@
 import { Repository } from "@/lib/github/types"
 import styles from "./SearchResults.module.css"
-import Link from "next/link"
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
+import { RepositoryCard } from "../repository-card/RepositoryCard"
 
 type SearchResultsProps = {
   repositories: Repository[]
@@ -30,16 +30,7 @@ export function SearchResults({ repositories, query }: SearchResultsProps) {
     <ul className={styles.list} aria-label="検索結果">
       {repositories.map((repository) => (
         <li key={repository.id} className={styles.item}>
-          <Link
-            className={styles.link}
-            href={`/repositories/${repository.owner.login}/${repository.name}`}>
-            <span className={styles.name}>{repository.fullName}</span>
-            {repository.description && (
-              <span className={styles.description}>
-                {repository.description}
-              </span>
-            )}
-          </Link>
+          <RepositoryCard repository={repository} />
         </li>
       ))}
     </ul>
