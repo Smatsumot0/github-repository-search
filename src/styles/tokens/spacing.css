@@ -12,14 +12,17 @@
   --space-12: calc(48px * var(--space-scale));
 }
 
+/*===== Tablet =====*/
 @media (max-width: 1023px) {
   :root {
     --space-scale: 0.9;
   }
 }
 
+/*===== Mobile =====*/
 @media (max-width: 767px) {
   :root {
     --space-scale: 0.8;
   }
 }
+
