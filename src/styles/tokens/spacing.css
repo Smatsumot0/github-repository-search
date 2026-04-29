@@ -1,0 +1,25 @@
+:root {
+  --space-scale: 1;
+
+  --space-1: calc(4px * var(--space-scale));
+  --space-2: calc(8px * var(--space-scale));
+  --space-3: calc(12px * var(--space-scale));
+  --space-4: calc(16px * var(--space-scale));
+  --space-5: calc(20px * var(--space-scale));
+  --space-6: calc(24px * var(--space-scale));
+  --space-8: calc(32px * var(--space-scale));
+  --space-10: calc(40px * var(--space-scale));
+  --space-12: calc(48px * var(--space-scale));
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --space-scale: 0.9;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --space-scale: 0.8;
+  }
+}

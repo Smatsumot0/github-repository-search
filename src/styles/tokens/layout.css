@@ -1,0 +1,4 @@
+:root {
+  --width-content: 1120px;
+  --gutter: var(--space-6);
+}

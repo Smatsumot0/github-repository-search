@@ -1,0 +1,73 @@
+:root {
+  /* ===== Color (Light) ===== */
+  --color-lang-typescript: #3178c6;
+  --color-lang-javascript: #f1d94e;
+  --color-lang-python: #3572a5;
+  --color-lang-java: #b07219;
+  --color-lang-csharp: #178600;
+  --color-lang-cpp: #f34b7d;
+  --color-lang-c: #555555;
+  --color-lang-go: #00add8;
+  --color-lang-rust: #dea584;
+  --color-lang-ruby: #cc342d;
+  --color-lang-php: #4f5d95;
+  --color-lang-swift: #f05138;
+  --color-lang-kotlin: #a97bff;
+  --color-lang-dart: #00b4ab;
+  --color-lang-scala: #c22d40;
+  --color-lang-r: #198ce7;
+  --color-lang-shell: #89e051;
+
+  --color-lang-html: #e34c26;
+  --color-lang-css: #563d7c;
+  --color-lang-scss: #c6538c;
+  --color-lang-vue: #41b883;
+  --color-lang-svelte: #ff3e00;
+  --color-lang-astro: #ff5d01;
+
+  --color-lang-json: #7a7a7a;
+  --color-lang-yaml: #cb171e;
+  --color-lang-markdown: #083fa1;
+  --color-lang-dockerfile: #384d54;
+  --color-lang-sql: #336790;
+  --color-lang-graphql: #e10098;
+
+  --color-lang-other: #9ca3af;
+}
+
+/* ===== Color (Dark) ===== */
+[data-theme="dark"] {
+  --color-lang-typescript: #5aa7f0;
+  --color-lang-javascript: #f7df5e;
+  --color-lang-python: #6aa6d8;
+  --color-lang-java: #d08a3a;
+  --color-lang-csharp: #4ade80;
+  --color-lang-cpp: #ff7aa2;
+  --color-lang-c: #a3a3a3;
+  --color-lang-go: #38c7e8;
+  --color-lang-rust: #f0bf98;
+  --color-lang-ruby: #ef625b;
+  --color-lang-php: #8b98d6;
+  --color-lang-swift: #ff7a5c;
+  --color-lang-kotlin: #c7a6ff;
+  --color-lang-dart: #4ddbd3;
+  --color-lang-scala: #ef5a6b;
+  --color-lang-r: #5db3ff;
+  --color-lang-shell: #a7f36b;
+
+  --color-lang-html: #ff6b4a;
+  --color-lang-css: #8b6bd6;
+  --color-lang-scss: #e879b9;
+  --color-lang-vue: #5bd9a0;
+  --color-lang-svelte: #ff6b3a;
+  --color-lang-astro: #ff8a3d;
+
+  --color-lang-json: #b3b3b3;
+  --color-lang-yaml: #f05252;
+  --color-lang-markdown: #60a5fa;
+  --color-lang-dockerfile: #6b8790;
+  --color-lang-sql: #6aa6c9;
+  --color-lang-graphql: #f25bc2;
+
+  --color-lang-other: #cbd5e1;
+}
