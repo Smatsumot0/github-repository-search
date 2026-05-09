@@ -1,0 +1,68 @@
+:root {
+  --pagination-button-width: 40px;
+  --pagination-side-count: 2;
+}
+
+.pagination {
+  display: grid;
+  gap: var(--gap-sm);
+  grid-template-columns:
+    repeat(
+      var(--pagination-side-count),
+      minmax(0, var(--pagination-button-width))
+    )
+    1fr repeat(
+      var(--pagination-side-count),
+      minmax(0, var(--pagination-button-width))
+    );
+}
+
+.left,
+.right,
+.center {
+  display: grid;
+  grid-template-columns: subgrid;
+}
+
+.left,
+.right {
+  grid-column: span var(--pagination-side-count);
+}
+
+.center {
+}
+
+.ellipsis {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*===== Button =====*/
+.button {
+  padding-inline: 0;
+}
+
+.button.current {
+  background: var(--color-accent);
+  color: white;
+  border-color: var(--color-accent);
+}
+
+.button.current:hover {
+  color: white;
+  cursor: default;
+}
+
+/*===== Pages =====*/
+.pageLabel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.totalPages::before {
+  content: "／";
+  margin-inline: var(--space-1);
+}
+
