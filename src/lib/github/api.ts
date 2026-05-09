@@ -6,16 +6,31 @@ import {
 } from "./types"
 import { GITHUB_API_BASE_URL, SEARCH_PER_PAGE } from "@/lib/github/constants"
 
-export async function searchRepositories(query: string): Promise<Repository[]> {
+type SearchRepositoriesParams = {
+  query: string
+  page: number
+}
+
+export async function searchRepositories({
+  query,
+  page,
+}: SearchRepositoriesParams): Promise<{
+  items: Repository[]
+  totalCount: number
+}> {
   const searchQuery = query.trim()
 
   if (searchQuery.length < MIN_SEARCH_QUERY_LENGTH) {
-    return []
+    return {
+      items: [],
+      totalCount: 0,
+    }
   }
 
   const params = new URLSearchParams({
     q: searchQuery,
     per_page: String(SEARCH_PER_PAGE),
+    page: String(page),
   })
 
   const response = await fetch(
@@ -34,7 +49,10 @@ export async function searchRepositories(query: string): Promise<Repository[]> {
 
   const data = (await response.json()) as SearchRepositoriesResponse
 
-  return data.items.map(mapRepository)
+  return {
+    items: data.items.map(mapRepository),
+    totalCount: data.total_count,
+  }
 }
 
 function mapRepository(repository: GitHubRepository): Repository {
