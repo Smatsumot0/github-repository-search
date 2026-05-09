@@ -26,13 +26,13 @@ export function RepositoryCard({ repository }: RepositoryCardProps) {
 
       <dl className={styles.meta}>
         <div className={styles.metaItem}>
-          <dt className={styles.visuallyHidden}>Stars</dt>
+          <dt className="visually-hidden">Stars</dt>
           <dd>★ {repository.stargazersCount}</dd>
         </div>
 
         {repository.language && (
           <div className={styles.metaItem}>
-            <dt className={styles.visuallyHidden}>Language</dt>
+            <dt className="visually-hidden">Language</dt>
             <dd>
               <LanguageBadge language={repository.language} />
             </dd>
