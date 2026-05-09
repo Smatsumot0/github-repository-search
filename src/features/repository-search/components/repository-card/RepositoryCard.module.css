@@ -1,5 +1,8 @@
 .card {
   position: relative;
+  display: grid;
+  grid-template-columns: 80px 1fr;
+  gap: var(--space-3);
   padding: var(--space-4);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -9,6 +12,29 @@
 
 .card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.ownerIcon {
+  grid-row: 1 / 2;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.content {
+  min-width: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.owner {
+  margin-top: var(--space-1);
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
 }
 
 .title {
@@ -69,6 +95,15 @@
 
 /*===== Mobile =====*/
 @media (max-width: 767px) {
+  .card {
+    grid-template-columns: 36px 1fr;
+  }
+
+  .ownerIcon {
+    width: 36px;
+    height: 36px;
+  }
+
   .meta {
     flex-direction: column;
     gap: var(--gap-xs);
