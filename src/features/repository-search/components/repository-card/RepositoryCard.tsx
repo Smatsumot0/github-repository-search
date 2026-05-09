@@ -16,7 +16,7 @@ export function RepositoryCard({ repository }: RepositoryCardProps) {
           target="_blank"
           rel="noopener noreferrer"
           className={styles.link}>
-          {repository.fullName}
+          <span className={styles.titleText}>{repository.fullName}</span>
         </Link>
       </h3>
 

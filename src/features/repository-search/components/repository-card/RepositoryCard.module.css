@@ -12,13 +12,25 @@
 }
 
 .title {
-  margin: 0;
   font-size: 1rem;
 }
 
 .link {
+  display: block;
+  width: 100%;
   text-decoration: none;
   color: var(--color-text-primary);
+}
+
+.titleText {
+  display: -webkit-box;
+  width: 100%;
+
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
+  overflow: hidden;
+  word-break: break-all;
 }
 
 .link:hover {
@@ -32,12 +44,18 @@
 }
 
 .description {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
   margin-top: var(--space-2);
+  text-overflow: ellipsis;
   color: var(--color-text-secondary);
 }
 
 .meta {
   display: flex;
+  flex-wrap: wrap;
   gap: var(--gap-md);
   margin-top: var(--space-3);
   font-size: 0.875rem;
@@ -49,11 +67,11 @@
   gap: var(--gap-xs);
 }
 
-.visuallyHidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+/*===== Mobile =====*/
+@media (max-width: 767px) {
+  .meta {
+    flex-direction: column;
+    gap: var(--gap-xs);
+  }
 }
 
