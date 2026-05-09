@@ -1,6 +1,6 @@
 "use client"
 
-import { ChangeEvent, useMemo, useState } from "react"
+import { useMemo, useState } from "react"
 import { Input } from "@/components"
 import { debounce } from "@/lib/utils/debounce"
 
@@ -10,47 +10,45 @@ type PageInputProps = {
   onChangePage: (page: number) => void
 }
 
-const DEBOUNCE_DELAY = 500
-
 export function PageInput({
   currentPage,
   totalPages,
   onChangePage,
 }: PageInputProps) {
-  const [value, setValue] = useState(String(currentPage))
+  const [draft, setDraft] = useState("")
 
-  const debouncedChangePage = useMemo(
+  const debouncedPageChange = useMemo(
     () =>
-      debounce((inputValue: string) => {
-        if (inputValue === "") return
+      debounce((value: string) => {
+        const page = Number(value)
 
-        const page = Number(inputValue)
+        if (!Number.isFinite(page)) {
+          return
+        }
 
-        if (!Number.isInteger(page)) return
+        const clamped = Math.min(Math.max(page, 1), totalPages)
 
-        const nextPage = Math.min(Math.max(page, 1), totalPages)
+        if (clamped !== currentPage) {
+          onChangePage(clamped)
+        }
 
-        setValue(String(nextPage))
-        onChangePage(nextPage)
-      }, DEBOUNCE_DELAY),
-    [totalPages, onChangePage],
+        setDraft("")
+      }, 500),
+    [currentPage, totalPages, onChangePage],
   )
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const nextValue = event.target.value
-
-    setValue(nextValue)
-    debouncedChangePage(nextValue)
+  const handleChange = (value: string) => {
+    setDraft(value)
+    debouncedPageChange(value)
   }
 
   return (
     <Input
-      key={currentPage}
       type="number"
       min={1}
       max={totalPages}
-      value={value}
-      onChange={handleChange}
+      value={draft === "" ? String(currentPage) : draft}
+      onChange={(event) => handleChange(event.target.value)}
     />
   )
 }
