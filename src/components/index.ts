@@ -4,4 +4,5 @@ export * from "./footer/Footer"
 export * from "./input/Input"
 export * from "./main/Main"
 export * from "./section/Section"
+export * from "./language-badge/LanguageBadge"
 
