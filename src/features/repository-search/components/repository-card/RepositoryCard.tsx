@@ -1,14 +1,16 @@
 import { Repository } from "@/lib/github/types"
 import Link from "next/link"
 import styles from "./RepositoryCard.module.css"
-import { LanguageBadge } from "../language-badge/LanguageBadge"
 import Image from "next/image"
+import { LanguageBadge } from "@/components"
 
 type RepositoryCardProps = {
   repository: Repository
 }
 
 export function RepositoryCard({ repository }: RepositoryCardProps) {
+  const href = `/repositories/${encodeURIComponent(repository.owner.login)}/${encodeURIComponent(repository.name)}`
+
   return (
     <article className={styles.card}>
       <Image
@@ -21,11 +23,7 @@ export function RepositoryCard({ repository }: RepositoryCardProps) {
 
       <div className={styles.content}>
         <h3 className={styles.title}>
-          <Link
-            href={repository.htmlUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.link}>
+          <Link href={href} className={styles.link}>
             <span className={styles.titleText}>{repository.fullName}</span>
           </Link>
         </h3>
