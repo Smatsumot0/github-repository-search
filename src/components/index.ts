@@ -1,3 +1,4 @@
+export * from "./anchor/Anchor"
 export * from "./button/Button"
 export * from "./header/Header"
 export * from "./footer/Footer"

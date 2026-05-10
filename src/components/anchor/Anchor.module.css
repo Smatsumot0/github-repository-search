@@ -1,0 +1,40 @@
+.anchor {
+  text-decoration: none;
+}
+
+/*===== Appearance  =====*/
+.anchor.text {
+  color: var(--color-accent);
+}
+
+.anchor.text:hover {
+  color: var(--color-accent-hover);
+}
+
+.anchor.outlined,
+.anchor.filled {
+  display: flex;
+  padding-block: var(--space-2);
+  padding-inline: var(--space-2);
+  border: solid 1px var(--color-accent);
+  border-radius: var(--radius-sm);
+}
+
+.anchor.outlined {
+  color: var(--color-accent);
+}
+
+.anchor.outlined:hover {
+  border-color: var(--color-accent-hover);
+  color: var(--color-accent-hover);
+}
+
+.anchor.filled {
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.anchor.filled:hover {
+  background-color: var(--color-accent-hover);
+}
+
