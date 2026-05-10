@@ -1,0 +1,29 @@
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-full);
+}
+
+.owner,
+.fullName,
+.description {
+  margin: 0;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  word-break: break-word;
+}
+
+.owner,
+.fullName {
+  color: var(--color-text-secondary);
+}
+
