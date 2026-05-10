@@ -1,0 +1,36 @@
+import type { GitHubRepository } from "@/lib/github/types"
+
+export const createGitHubRepositoryMock = (
+  override: Partial<GitHubRepository> = {},
+): GitHubRepository => ({
+  id: 123,
+  node_id: "node123",
+  name: "test-repo",
+  full_name: "owner/test-repo",
+  private: false,
+  owner: {
+    login: "owner",
+    id: 456,
+    node_id: "owner-node",
+    avatar_url: "https://example.com/avatar.jpg",
+    html_url: "https://github.com/owner",
+    type: "User",
+  },
+  html_url: "https://github.com/owner/test-repo",
+  description: "A test repository",
+  fork: false,
+  url: "https://api.github.com/repos/owner/test-repo",
+  created_at: "2023-01-01T00:00:00Z",
+  updated_at: "2023-01-02T00:00:00Z",
+  pushed_at: "2023-01-03T00:00:00Z",
+  homepage: "https://example.com",
+  size: 1000,
+  stargazers_count: 50,
+  watchers_count: 50,
+  language: "TypeScript",
+  forks_count: 10,
+  open_issues_count: 5,
+  default_branch: "main",
+  score: 0.8,
+  ...override,
+})
