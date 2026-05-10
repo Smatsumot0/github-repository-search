@@ -8,12 +8,14 @@ type PageInputProps = {
   currentPage: number
   totalPages: number
   onChangePage: (page: number) => void
+  disabled?: boolean
 }
 
 export function PageInput({
   currentPage,
   totalPages,
   onChangePage,
+  disabled,
 }: PageInputProps) {
   const [draft, setDraft] = useState("")
 
@@ -45,10 +47,12 @@ export function PageInput({
   return (
     <Input
       type="number"
+      aria-label="ページ番号を入力"
       min={1}
       max={totalPages}
       value={draft === "" ? String(currentPage) : draft}
       onChange={(event) => handleChange(event.target.value)}
+      disabled={disabled}
     />
   )
 }

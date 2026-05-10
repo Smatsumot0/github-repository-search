@@ -61,6 +61,10 @@
   justify-content: center;
 }
 
+.totalPages {
+  min-width: 3rem;
+}
+
 .totalPages::before {
   content: "／";
   margin-inline: var(--space-1);

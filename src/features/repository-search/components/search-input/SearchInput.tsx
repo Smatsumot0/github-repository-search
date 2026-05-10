@@ -11,9 +11,15 @@ import {
 
 type SearchInputProps = {
   defaultValue?: string
+  disabled?: boolean
+  startTransition: (callback: () => void) => void
 }
 
-export function SearchInput({ defaultValue = "" }: SearchInputProps) {
+export function SearchInput({
+  defaultValue = "",
+  disabled,
+  startTransition,
+}: SearchInputProps) {
   const router = useRouter()
   const [keyword, setKeyword] = useState(defaultValue)
 
@@ -21,13 +27,17 @@ export function SearchInput({ defaultValue = "" }: SearchInputProps) {
     () =>
       debounce((query: string) => {
         if (query.length < MIN_SEARCH_QUERY_LENGTH) {
-          router.replace("/")
+          startTransition?.(() => {
+            router.replace("/")
+          })
           return
         }
 
-        router.replace(`/?q=${encodeURIComponent(query)}`)
+        startTransition?.(() => {
+          router.replace(`/?q=${encodeURIComponent(query)}`)
+        })
       }, SEARCH_DEBOUNCE_DELAY_MS),
-    [router],
+    [router, startTransition],
   )
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -48,6 +58,7 @@ export function SearchInput({ defaultValue = "" }: SearchInputProps) {
       aria-label="GitHubリポジトリを検索"
       autoComplete="off"
       spellCheck={false}
+      disabled={disabled}
     />
   )
 }

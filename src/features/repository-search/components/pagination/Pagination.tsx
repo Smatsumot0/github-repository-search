@@ -9,9 +9,16 @@ import { PageInput } from "./components/PageInput"
 type PaginationProps = {
   currentPage: number
   totalPages: number
+  disabled?: boolean
+  startTransition?: (callback: () => void) => void
 }
 
-export function Pagination({ currentPage, totalPages }: PaginationProps) {
+export function Pagination({
+  currentPage,
+  totalPages,
+  disabled,
+  startTransition,
+}: PaginationProps) {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -20,7 +27,9 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
     const params = new URLSearchParams(searchParams.toString())
     params.set("page", String(nextPage))
 
-    router.push(`${pathname}?${params.toString()}`)
+    startTransition?.(() => {
+      router.push(`${pathname}?${params.toString()}`)
+    })
   }
 
   return (
@@ -30,14 +39,14 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
         <Button
           className={clsx(styles.button, styles.edgeButton)}
           onClick={() => handlePageChange(1)}
-          disabled={currentPage === 1}>
+          disabled={currentPage === 1 || disabled}>
           «
         </Button>
         {/* 前へ */}
         <Button
           className={styles.button}
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}>
+          disabled={currentPage === 1 || disabled}>
           ‹
         </Button>
       </div>
@@ -49,6 +58,7 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
             currentPage={currentPage}
             totalPages={totalPages}
             onChangePage={handlePageChange}
+            disabled={disabled}
           />
           <span className={styles.totalPages}>{totalPages}</span>
         </label>
@@ -58,14 +68,14 @@ export function Pagination({ currentPage, totalPages }: PaginationProps) {
         <Button
           className={styles.button}
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage >= totalPages}>
+          disabled={currentPage >= totalPages || disabled}>
           ›
         </Button>
 
         <Button
           className={clsx(styles.button, styles.edgeButton)}
           onClick={() => handlePageChange(totalPages)}
-          disabled={currentPage >= totalPages}>
+          disabled={currentPage >= totalPages || disabled}>
           »
         </Button>
       </div>
