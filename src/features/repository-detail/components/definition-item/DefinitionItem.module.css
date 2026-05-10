@@ -1,0 +1,10 @@
+.term {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+.description {
+  margin: var(--space-1) 0 0;
+  font-weight: 700;
+}
+
