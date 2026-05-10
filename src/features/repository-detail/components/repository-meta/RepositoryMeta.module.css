@@ -1,5 +1,13 @@
 .meta {
   display: grid;
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-3);
+}
+
+/*===== Mobile =====*/
+@media (max-width: 767px) {
+  .meta {
+    grid-template-columns: 1fr;
+  }
 }
 

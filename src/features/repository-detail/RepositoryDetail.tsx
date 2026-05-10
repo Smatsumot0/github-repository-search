@@ -19,29 +19,31 @@ export function RepositoryDetail({ repository }: RepositoryDetailProps) {
         fullName={repository.fullName}
       />
 
-      <RepositorySummary
-        language={repository.language}
-        description={repository.description}
-      />
+      <div className={styles.main}>
+        <RepositorySummary
+          language={repository.language}
+          description={repository.description}
+        />
 
-      <RepositoryLinks
-        htmlUrl={repository.htmlUrl}
-        homepage={repository.homepage}
-      />
+        <RepositoryLinks
+          htmlUrl={repository.htmlUrl}
+          homepage={repository.homepage}
+        />
 
-      <RepositoryStats
-        stargazersCount={repository.stargazersCount}
-        watchersCount={repository.watchersCount}
-        forksCount={repository.forksCount}
-        openIssuesCount={repository.openIssuesCount}
-      />
+        <RepositoryStats
+          stargazersCount={repository.stargazersCount}
+          watchersCount={repository.watchersCount}
+          forksCount={repository.forksCount}
+          openIssuesCount={repository.openIssuesCount}
+        />
 
-      <RepositoryMeta
-        defaultBranch={repository.defaultBranch}
-        createdAt={repository.createdAt}
-        updatedAt={repository.updatedAt}
-        pushedAt={repository.pushedAt}
-      />
+        <RepositoryMeta
+          defaultBranch={repository.defaultBranch}
+          createdAt={repository.createdAt}
+          updatedAt={repository.updatedAt}
+          pushedAt={repository.pushedAt}
+        />
+      </div>
     </article>
   )
 }
