@@ -55,6 +55,7 @@ export function Pagination({
         <label className={styles.pageLabel}>
           <span className="visually-hidden">ページを選択</span>
           <PageInput
+            key={currentPage}
             currentPage={currentPage}
             totalPages={totalPages}
             onChangePage={handlePageChange}

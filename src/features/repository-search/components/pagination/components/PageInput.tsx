@@ -17,11 +17,15 @@ export function PageInput({
   onChangePage,
   disabled,
 }: PageInputProps) {
-  const [draft, setDraft] = useState("")
+  const [draft, setDraft] = useState(String(currentPage))
 
   const debouncedPageChange = useMemo(
     () =>
       debounce((value: string) => {
+        if (value.trim() === "") {
+          return
+        }
+
         const page = Number(value)
 
         if (!Number.isFinite(page)) {
@@ -33,8 +37,6 @@ export function PageInput({
         if (clamped !== currentPage) {
           onChangePage(clamped)
         }
-
-        setDraft("")
       }, 500),
     [currentPage, totalPages, onChangePage],
   )
@@ -50,10 +52,9 @@ export function PageInput({
       aria-label="ページ番号を入力"
       min={1}
       max={totalPages}
-      value={draft === "" ? String(currentPage) : draft}
+      value={draft}
       onChange={(event) => handleChange(event.target.value)}
       disabled={disabled}
     />
   )
 }
-
