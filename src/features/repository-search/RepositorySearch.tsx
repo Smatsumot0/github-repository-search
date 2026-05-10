@@ -1,4 +1,4 @@
-import { searchRepositories } from "@/lib/github/api"
+import { fetchRepositories } from "@/lib/github/fetchRepositories"
 import { SEARCH_PER_PAGE } from "@/lib/github/constants"
 import { RepositorySearchClient } from "./RepositorySearchClient"
 
@@ -8,7 +8,7 @@ type RepositorySearchProps = {
 }
 
 export async function RepositorySearch({ query, page }: RepositorySearchProps) {
-  const result = await searchRepositories({ query, page })
+  const result = await fetchRepositories({ query, page })
   const cappedTotal = Math.min(result.totalCount, 1000)
   const totalPages = Math.ceil(cappedTotal / SEARCH_PER_PAGE)
 

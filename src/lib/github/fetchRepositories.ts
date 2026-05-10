@@ -6,15 +6,15 @@ import {
 } from "./types"
 import { GITHUB_API_BASE_URL, SEARCH_PER_PAGE } from "@/lib/github/constants"
 
-type SearchRepositoriesParams = {
+type FetchRepositoriesParams = {
   query: string
   page: number
 }
 
-export async function searchRepositories({
+export async function fetchRepositories({
   query,
   page,
-}: SearchRepositoriesParams): Promise<{
+}: FetchRepositoriesParams): Promise<{
   items: Repository[]
   totalCount: number
 }> {
