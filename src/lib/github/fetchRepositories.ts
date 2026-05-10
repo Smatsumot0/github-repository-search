@@ -1,10 +1,7 @@
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
-import {
-  GitHubRepository,
-  Repository,
-  SearchRepositoriesResponse,
-} from "./types"
+import { Repository, SearchRepositoriesResponse } from "./types"
 import { GITHUB_API_BASE_URL, SEARCH_PER_PAGE } from "@/lib/github/constants"
+import { mapRepository } from "@/lib/github/mapper"
 
 type FetchRepositoriesParams = {
   query: string
@@ -52,29 +49,6 @@ export async function fetchRepositories({
   return {
     items: data.items.map(mapRepository),
     totalCount: data.total_count,
-  }
-}
-
-function mapRepository(repository: GitHubRepository): Repository {
-  return {
-    id: repository.id,
-    name: repository.name,
-    fullName: repository.full_name,
-    description: repository.description,
-    htmlUrl: repository.html_url,
-    language: repository.language,
-    stargazersCount: repository.stargazers_count,
-    watchersCount: repository.watchers_count,
-    forksCount: repository.forks_count,
-    openIssuesCount: repository.open_issues_count,
-    createdAt: repository.created_at,
-    updatedAt: repository.updated_at,
-    pushedAt: repository.pushed_at,
-    owner: {
-      login: repository.owner.login,
-      avatarUrl: repository.owner.avatar_url,
-      htmlUrl: repository.owner.html_url,
-    },
   }
 }
 
