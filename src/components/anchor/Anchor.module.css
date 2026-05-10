@@ -13,7 +13,7 @@
 
 .anchor.outlined,
 .anchor.filled {
-  display: flex;
+  width: fit-content;
   padding-block: var(--space-2);
   padding-inline: var(--space-2);
   border: solid 1px var(--color-accent);
