@@ -7,7 +7,7 @@
   z-index: 30;
 }
 
-.logo {
+.title {
   color: var(--color-text-primary);
   font-size: 1.25rem;
   font-weight: 700;

@@ -5,7 +5,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <div className="content-width">
-        <Link href="/" className={styles.logo}>
+        <Link href="/" className={styles.title}>
           GitHub Repository Search
         </Link>
       </div>
