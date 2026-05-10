@@ -6,7 +6,7 @@ import { Pagination } from "./components/pagination/Pagination"
 import { SearchResults } from "./components/search-results/SearchResults"
 import styles from "./RepositorySearch.module.css"
 import { Repository } from "@/lib/github/types"
-import { Section } from "@/components"
+import { Section, Loading } from "@/components"
 
 type RepositorySearchClientProps = {
   query: string
@@ -41,14 +41,7 @@ export function RepositorySearchClient({
       </div>
 
       <div className={styles.resultsArea} aria-busy={isPending}>
-        {isPending && (
-          <div className={styles.loadingOverlay} aria-hidden="true">
-            <div className={styles.loadingContent}>
-              <span className={styles.spinner} />
-              <span>読み込み中...</span>
-            </div>
-          </div>
-        )}
+        <Loading isLoading={isPending} />
 
         <SearchResults repositories={repositories} query={query} />
       </div>
