@@ -30,3 +30,9 @@
   cursor: not-allowed;
 }
 
+.input[aria-busy="true"]:focus-visible {
+  opacity: 0.5;
+  cursor: progress;
+  outline: none;
+}
+

@@ -1,13 +1,14 @@
 "use client"
 
 import { debounce } from "@/lib/utils/debounce"
-import { useRouter } from "next/navigation"
-import { ChangeEvent, useMemo, useState } from "react"
+import { useRouter, useSearchParams } from "next/navigation"
+import { useMemo, useState } from "react"
 import styles from "./SearchInput.module.css"
 import {
   MIN_SEARCH_QUERY_LENGTH,
   SEARCH_DEBOUNCE_DELAY_MS,
 } from "@/lib/constants/search"
+import { Input } from "@/components"
 
 type SearchInputProps = {
   defaultValue?: string
@@ -15,15 +16,14 @@ type SearchInputProps = {
   startTransition: (callback: () => void) => void
 }
 
-export function SearchInput({
-  defaultValue = "",
-  disabled,
-  startTransition,
-}: SearchInputProps) {
+export function SearchInput({ disabled, startTransition }: SearchInputProps) {
   const router = useRouter()
-  const [keyword, setKeyword] = useState(defaultValue)
+  const searchParams = useSearchParams()
 
-  const debouncedSearch = useMemo(
+  const initialQuery = searchParams.get("q") ?? ""
+  const [value, setValue] = useState(initialQuery)
+
+  const updateQuery = useMemo(
     () =>
       debounce((query: string) => {
         if (query.length < MIN_SEARCH_QUERY_LENGTH) {
@@ -33,32 +33,38 @@ export function SearchInput({
           return
         }
 
-        startTransition?.(() => {
-          router.replace(`/?q=${encodeURIComponent(query)}`)
+        const params = new URLSearchParams()
+        if (query.trim()) {
+          params.set("q", query)
+        }
+
+        startTransition(() => {
+          router.replace(`?${params.toString()}`, { scroll: false })
         })
       }, SEARCH_DEBOUNCE_DELAY_MS),
     [router, startTransition],
   )
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const query = event.target.value.trim()
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (disabled) return
 
-    setKeyword(event.target.value)
-    debouncedSearch(query)
+    const nextValue = e.target.value
+    setValue(nextValue)
+    updateQuery(nextValue)
   }
 
   return (
-    <input
+    <Input
       className={styles.input}
       type="search"
       name="q"
-      value={keyword}
+      value={value}
       onChange={handleChange}
       placeholder="リポジトリを検索"
       aria-label="GitHubリポジトリを検索"
+      aria-busy={disabled}
       autoComplete="off"
       spellCheck={false}
-      disabled={disabled}
     />
   )
 }
