@@ -1,36 +1,177 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GitHub Repository Search
 
-## Getting Started
+GitHub のリポジトリを検索し、詳細情報を確認できる Web アプリケーションです。
 
-First, run the development server:
+## 概要
+
+GitHub Search API を利用してリポジトリ検索を行い、検索結果一覧と詳細情報を表示します。
+
+### 主な機能
+
+- リポジトリ検索（2文字以上で検索）
+- 検索キーワード変更時の自動検索（debounce）
+- ページネーション
+- リポジトリ詳細表示
+- GitHub / Homepage への外部リンク
+- レスポンシブ対応
+- ダークモード対応
+
+---
+
+## 技術スタック
+
+### Frontend
+
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+
+### Styling
+
+- CSS Modules
+- CSS Variables
+
+### Testing
+
+- Vitest
+- React Testing Library
+- MSW
+
+### API
+
+- GitHub REST API
+
+---
+
+## セットアップ
+
+### 必要環境
+
+- Node.js
+- pnpm
+- Volta（推奨）
+
+### インストール
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 開発サーバー起動
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+pnpm dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## テスト
 
-To learn more about Next.js, take a look at the following resources:
+### 全テスト実行
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+pnpm test
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### UI付き実行
 
-## Deploy on Vercel
+```bash
+pnpm test:ui
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### カバレッジ
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+pnpm test:coverage
+```
+
+---
+
+## テスト方針
+
+以下の観点でテストを実装しています。
+
+### Unit Test
+
+コンポーネント単体の表示・分岐・イベントを検証
+
+対象例：
+
+- RepositoryCard
+- SearchResults
+- PageInput
+- Pagination
+
+### Integration Test
+
+画面単位で主要なユーザー操作を検証
+
+対象例：
+
+- RepositorySearch
+- RepositoryDetail
+
+### API Test
+
+GitHub API との通信処理を検証
+
+対象例：
+
+- fetchRepositories
+- fetchRepository
+
+---
+
+## ディレクトリ構成
+
+```txt
+src
+├── app
+├── components
+├── features
+│   ├── repository-search
+│   └── repository-detail
+├── lib
+│   └── github
+└── test
+```
+
+---
+
+## 工夫した点
+
+### App Router / Server Components を活用
+
+データ取得は Server Component 側で行い、クライアント側の不要な `useEffect` を避けました。
+
+### アクセシビリティを意識
+
+- semantic HTML
+- `time` 要素
+- `dl / dt / dd`
+- aria-label
+
+を適切に使用しています。
+
+### 保守性
+
+- 共通モックを factory 化
+- Magic Number の排除
+- 定数管理
+- コンポーネント責務の分離
+
+---
+
+## 今後の改善案
+
+- ソート機能
+- フィルター機能
+- GitHub API Rate Limit 対応
+- Suspense を活用したローディング改善
+- E2E テスト追加
+
+---
+
+## 備考
+
+GitHub API の仕様上、未認証アクセスでは Rate Limit に制限があります。
