@@ -1,3 +1,6 @@
+/**
+ * API Response
+ */
 export type GitHubRepository = {
   id: number
   node_id: string
@@ -30,6 +33,9 @@ export type GitHubRepository = {
   score?: number
 }
 
+/**
+ * Application Data Model
+ */
 export type Repository = {
   id: number
   name: string
@@ -49,10 +55,16 @@ export type Repository = {
     avatarUrl: string
     htmlUrl: string
   }
+  homepage: string | null
+  defaultBranch: string
 }
 
+/**
+ * API Response for Search Repositories Endpoint
+ */
 export type SearchRepositoriesResponse = {
   total_count: number
   incomplete_results: boolean
   items: GitHubRepository[]
 }
+
