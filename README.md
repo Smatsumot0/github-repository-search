@@ -1,177 +1,128 @@
 # GitHub Repository Search
 
-GitHub のリポジトリを検索し、詳細情報を確認できる Web アプリケーションです。
+Next.js App Router を使用した GitHub リポジトリ検索アプリケーションです。  
+キーワードを入力すると GitHub API の `search/repositories` を利用してリポジトリを検索し、検索結果一覧と詳細ページを表示します。
 
-## 概要
+## 使用技術
 
-GitHub Search API を利用してリポジトリ検索を行い、検索結果一覧と詳細情報を表示します。
-
-### 主な機能
-
-- リポジトリ検索（2文字以上で検索）
-- 検索キーワード変更時の自動検索（debounce）
-- ページネーション
-- リポジトリ詳細表示
-- GitHub / Homepage への外部リンク
-- レスポンシブ対応
-- ダークモード対応
-
----
-
-## 技術スタック
-
-### Frontend
-
-- Next.js 16 (App Router)
-- React 19
+- Next.js v16
+- React
 - TypeScript
-
-### Styling
-
 - CSS Modules
-- CSS Variables
-
-### Testing
-
+- GitHub REST API
 - Vitest
 - React Testing Library
 - MSW
 
-### API
+## 主な機能
 
-- GitHub REST API
-
----
+- キーワードによる GitHub リポジトリ検索
+- 検索結果一覧の表示
+- ページネーション
+- リポジトリ詳細ページの表示
+- レスポンシブ対応
+- ローディング表示
+- エラー表示
+- テストコード
 
 ## セットアップ
-
-### 必要環境
-
-- Node.js
-- pnpm
-- Volta（推奨）
-
-### インストール
 
 ```bash
 pnpm install
 ```
 
-### 開発サーバー起動
+## 開発サーバー起動
 
 ```bash
 pnpm dev
 ```
 
----
-
-## テスト
-
-### 全テスト実行
+## テスト実行
 
 ```bash
 pnpm test
 ```
 
-### UI付き実行
+## 実装方針
 
-```bash
-pnpm test:ui
-```
+### Next.js App Router を活かした構成
 
-### カバレッジ
+検索条件を URL クエリパラメータで管理し、検索結果の取得は Server Component 側で行う構成にしています。
 
-```bash
-pnpm test:coverage
-```
+これにより、画面の状態が URL と同期され、ブラウザバックやリロード時にも同じ検索結果を再現できるようにしました。
 
----
+### 検索入力
 
-## テスト方針
+検索ボタンは設けず、入力内容に応じて検索結果が更新される UI にしています。
 
-以下の観点でテストを実装しています。
+ただし、入力のたびに即座に API リクエストを送ると負荷が高くなるため、debounce を利用して一定時間入力が止まってから URL を更新するようにしています。
 
-### Unit Test
+また、短すぎる検索キーワードでは意図しない検索結果が増えやすいため、最小文字数を設定しています。
 
-コンポーネント単体の表示・分岐・イベントを検証
+### 詳細ページ
 
-対象例：
+詳細表示はモーダルではなく、課題要件に沿って独立したページとして実装しています。
 
-- RepositoryCard
-- SearchResults
-- PageInput
-- Pagination
+一覧から詳細ページへ遷移できるようにし、詳細ページでは以下の情報を表示します。
 
-### Integration Test
+- リポジトリ名
+- オーナーアイコン
+- プロジェクト言語
+- Star 数
+- Watcher 数
+- Fork 数
+- Issue 数
 
-画面単位で主要なユーザー操作を検証
+### コンポーネント設計
 
-対象例：
+画面単位ではなく、責務ごとにコンポーネントを分割しています。
 
-- RepositorySearch
-- RepositoryDetail
+例:
 
-### API Test
+- `SearchInput`
+- `SearchResults`
+- `RepositoryCard`
+- `Pagination`
+- `RepositoryDetail`
 
-GitHub API との通信処理を検証
+検索機能に関するコンポーネントは `features/repository-search` 配下にまとめ、機能単位で見通しやすい構成にしています。
 
-対象例：
+### 型定義とデータ変換
 
-- fetchRepositories
-- fetchRepository
+GitHub API のレスポンスをそのまま画面で扱うのではなく、アプリケーション内で扱いやすい型に変換しています。
 
----
+外部 API のデータ構造と UI 側のデータ構造を分離することで、表示側の実装が GitHub API のレスポンス形式に依存しすぎないようにしています。
 
-## ディレクトリ構成
+### UI / UX
 
-```txt
-src
-├── app
-├── components
-├── features
-│   ├── repository-search
-│   └── repository-detail
-├── lib
-│   └── github
-└── test
-```
+デザイン性そのものよりも、見やすさ・操作しやすさを重視しました。
 
----
+- 検索前、検索結果なし、エラー時のメッセージを表示
+- ページネーションで検索結果を移動可能
+- レスポンシブ対応
+- ダークモード対応
+- 画像には代替テキストを設定
+- 意味に応じた HTML 要素を使用
 
-## 工夫した点
+### テスト方針
 
-### App Router / Server Components を活用
+テストでは、実装の内部構造よりもユーザーから見た振る舞いを重視しています。
 
-データ取得は Server Component 側で行い、クライアント側の不要な `useEffect` を避けました。
+主に以下を確認しています。
 
-### アクセシビリティを意識
+- 検索前メッセージが表示されること
+- 検索結果が 0 件の場合の表示
+- 検索結果がある場合に一覧が表示されること
+- リポジトリカードの表示内容
+- ページネーションの操作
+- 入力値に応じたページ変更
+- GitHub API レスポンスの変換処理
 
-- semantic HTML
-- `time` 要素
-- `dl / dt / dd`
-- aria-label
+API 通信を伴う処理は MSW を利用してモック化し、外部 API の状態に左右されないテストにしています。
 
-を適切に使用しています。
+### AI 利用について
 
-### 保守性
+本課題では、実装方針の整理、README の文章作成、テスト観点の洗い出し、コード改善案の検討に AI を利用しました。
 
-- 共通モックを factory 化
-- Magic Number の排除
-- 定数管理
-- コンポーネント責務の分離
+ただし、生成された内容はそのまま使用せず、課題要件・実装内容・設計意図に合うように確認・修正したうえで反映しています。
 
----
-
-## 今後の改善案
-
-- ソート機能
-- フィルター機能
-- GitHub API Rate Limit 対応
-- Suspense を活用したローディング改善
-- E2E テスト追加
-
----
-
-## 備考
-
-GitHub API の仕様上、未認証アクセスでは Rate Limit に制限があります。
