@@ -76,6 +76,27 @@ describe("fetchRepositories()", () => {
     expect(requestUrl?.searchParams.get("q")).toBe("react")
   })
 
+  it("指定したperPageをper_pageクエリとして送信する", async () => {
+    let requestUrl: URL | undefined
+
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
+        requestUrl = new URL(request.url)
+
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
+
+    await fetchRepositories({ query: "test", page: 1, perPage: 10 })
+
+    expect(requestUrl).toBeDefined()
+    expect(requestUrl?.searchParams.get("per_page")).toBe("10")
+  })
+
   // it("sort を指定した場合、リクエストURLに含める", async () => {
   //   let requestUrl: URL | undefined
 

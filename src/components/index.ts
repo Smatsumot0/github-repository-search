@@ -7,4 +7,5 @@ export * from "./language-badge/LanguageBadge"
 export * from "./loading/Loading"
 export * from "./main/Main"
 export * from "./section/Section"
+export * from "./select/Select"
 

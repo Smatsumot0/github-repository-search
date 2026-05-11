@@ -11,6 +11,11 @@
   backdrop-filter: blur(1.5px);
 }
 
+.searchActions {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+}
+
 .resultsArea {
   position: relative;
 }

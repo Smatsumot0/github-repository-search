@@ -8,11 +8,13 @@ import { Repository } from "@/lib/github/types"
 import { Pagination } from "./components/pagination/Pagination"
 import { SearchInput } from "./components/search-input/SearchInput"
 import { SearchResults } from "./components/search-results/SearchResults"
+import { SearchToolbar } from "./components/search-toolbar/SearchToolbar"
 import styles from "./RepositorySearch.module.css"
 
 type RepositorySearchClientProps = {
   query: string
   page: number
+  perPage: number
   totalPages: number
   repositories: Repository[]
 }
@@ -20,6 +22,7 @@ type RepositorySearchClientProps = {
 export function RepositorySearchClient({
   query,
   page,
+  perPage,
   totalPages,
   repositories,
 }: RepositorySearchClientProps) {
@@ -30,12 +33,15 @@ export function RepositorySearchClient({
       <div className={styles.controls}>
         <SearchInput defaultValue={query} startTransition={startTransition} />
 
-        <Pagination
-          currentPage={page}
-          totalPages={totalPages}
-          disabled={isPending}
-          startTransition={startTransition}
-        />
+        <div className={styles.searchActions}>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            disabled={isPending}
+            startTransition={startTransition}
+          />
+          <SearchToolbar perPage={perPage} disabled={isPending} />
+        </div>
       </div>
 
       <div className={styles.resultsArea} aria-busy={isPending}>
