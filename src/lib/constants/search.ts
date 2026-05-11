@@ -31,12 +31,7 @@ export type SearchOrder = (typeof SEARCH_ORDER)[keyof typeof SEARCH_ORDER]
 /**
  * 検索結果のソート項目オプション
  */
-export const SEARCH_SORT_OPTIONS = [
-  "best-match",
-  "stars",
-  "forks",
-  "updated",
-] as const
+export const SEARCH_SORT_OPTIONS = ["best-match", "stars", "updated"] as const
 export type SearchSort = (typeof SEARCH_SORT_OPTIONS)[number]
 
 export const DEFAULT_SEARCH_SORT: SearchSort = "stars"
@@ -47,7 +42,6 @@ export const DEFAULT_SEARCH_SORT: SearchSort = "stars"
 export const SEARCH_SORT_LABELS: Record<SearchSort, string> = {
   "best-match": "関連度",
   stars: "スター数",
-  forks: "フォーク数",
   updated: "更新日",
 }
 
