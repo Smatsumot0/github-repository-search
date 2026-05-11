@@ -13,8 +13,13 @@
 
 .searchActions {
   display: grid;
-  grid-template-columns: max-content 1fr;
+  grid-template-columns: 1fr max-content;
   gap: var(--gap-sm);
+}
+
+.filterToolbarContent {
+  display: subgrid;
+  grid-column: span 2;
 }
 
 .mobileToggleButtons {
@@ -30,6 +35,11 @@
   .searchActions {
     grid-template-columns: 1fr;
     gap: var(--gap-sm);
+  }
+
+  .filterToolbarContent {
+    display: block;
+    grid-column: auto;
   }
 
   .mobileToggleButtons {

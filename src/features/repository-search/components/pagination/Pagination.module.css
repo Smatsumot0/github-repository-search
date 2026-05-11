@@ -15,6 +15,7 @@
       var(--pagination-side-count),
       minmax(0, var(--pagination-button-width))
     );
+  margin-right: auto;
 }
 
 .left,

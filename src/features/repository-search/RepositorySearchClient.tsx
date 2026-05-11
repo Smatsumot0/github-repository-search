@@ -1,5 +1,6 @@
 "use client"
 
+import clsx from "clsx"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 
@@ -73,14 +74,12 @@ export function RepositorySearchClient({
         <SearchInput defaultValue={query} startTransition={startTransition} />
 
         <div className={styles.searchActions}>
-          <div>
-            <Pagination
-              currentPage={page}
-              totalPages={totalPages}
-              disabled={isPending}
-              startTransition={startTransition}
-            />
-          </div>
+          <Pagination
+            currentPage={page}
+            totalPages={totalPages}
+            disabled={isPending}
+            startTransition={startTransition}
+          />
 
           <div className={styles.mobileToggleButtons}>
             <DisclosureButton
@@ -114,7 +113,7 @@ export function RepositorySearchClient({
 
           <div
             id="filter-toolbar-content"
-            className={styles.actionsContent}
+            className={clsx(styles.actionsContent, styles.filterToolbarContent)}
             data-open={isOpenFilterPanel}>
             <FilterToolbar
               filterOptions={filterOptions}
