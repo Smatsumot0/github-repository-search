@@ -117,28 +117,31 @@ describe("fetchRepositories()", () => {
   //   expect(requestUrl?.searchParams.get("sort")).toBe("stars")
   // })
 
-  // it("order を指定した場合、リクエストURLに含める", async () => {
-  //   let requestUrl: URL | undefined
+  it("指定したorderをorderクエリとして送信する", async () => {
+    let requestUrl: URL | undefined
 
-  //   server.use(
-  //     http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
-  //       requestUrl = new URL(request.url)
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
+        requestUrl = new URL(request.url)
 
-  //       return HttpResponse.json({
-  //         total_count: 0,
-  //         incomplete_results: false,
-  //         items: [],
-  //       })
-  //     }),
-  //   )
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
 
-  //   await fetchRepositories({
-  //     query: "test",
-  //     page: 1,
-  //   })
+    await fetchRepositories({
+      query: "test",
+      page: 1,
+      perPage: 20,
+      order: "asc",
+    })
 
-  //   expect(requestUrl?.searchParams.get("order")).toBe("desc")
-  // })
+    expect(requestUrl).toBeDefined()
+    expect(requestUrl?.searchParams.get("order")).toBe("asc")
+  })
 
   it("APIエラーの場合、例外を投げる", async () => {
     server.use(
