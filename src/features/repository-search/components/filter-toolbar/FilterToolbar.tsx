@@ -6,6 +6,7 @@ import { PushedPeriod } from "@/lib/constants/search"
 
 import { LanguageFilter } from "./components/language-filter/LanguageFilter"
 import { MinStarsFilter } from "./components/min-stars-filter/MinStarsFilter"
+import { PushedFilter } from "./components/pushed-filter/PushedFilter"
 import styles from "./FilterToolbar.module.css"
 
 export type FilterOptions = {
@@ -73,15 +74,17 @@ export function FilterToolbar({
         />
       </DefinitionItem>
 
-      {/*
       <DefinitionItem term="更新日時" layout="horizontal">
         <PushedFilter
-          value={pushed ?? ""}
+          value={optimisticOptions.pushed}
           disabled={disabled}
-          onChange={(value) => onChange("pushed", value)}
+          onChange={(nextPushed) =>
+            handleChange("pushed", nextPushed ? String(nextPushed) : "", {
+              pushed: nextPushed,
+            })
+          }
         />
-      </DefinitionItem> 
-      */}
+      </DefinitionItem>
 
       <DefinitionItem
         term="Fork除外"
@@ -92,7 +95,7 @@ export function FilterToolbar({
           checked={optimisticOptions.excludeForks ?? false}
           disabled={disabled}
           onChange={(checked) =>
-            handleChange("excludeForks", String(checked), {
+            handleChange("excludeForks", checked ? "true" : "", {
               excludeForks: checked,
             })
           }
