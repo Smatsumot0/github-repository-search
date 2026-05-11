@@ -25,6 +25,10 @@ describe("parsePage", () => {
     expect(parsePage(["3", "4"])).toBe(3)
   })
 
+  it("配列の先頭が不正な値の場合、1を返す", () => {
+    expect(parsePage(["abc", "2"])).toBe(1)
+  })
+
   it("未指定の場合、1を返す", () => {
     expect(parsePage(undefined)).toBe(1)
   })
@@ -36,6 +40,10 @@ describe("parsePage", () => {
   it("1未満の場合、1を返す", () => {
     expect(parsePage("0")).toBe(1)
     expect(parsePage("-1")).toBe(1)
+  })
+
+  it("前後に空白がある整数文字列の場合、数値に変換する", () => {
+    expect(parseMinStars(" 100 ")).toBe(100)
   })
 
   it("空文字の場合、1を返す", () => {
