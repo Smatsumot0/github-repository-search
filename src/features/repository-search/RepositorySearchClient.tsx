@@ -3,6 +3,7 @@
 import { useTransition } from "react"
 
 import { Loading, Section } from "@/components"
+import { SearchOrder, SearchSort } from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 
 import { Pagination } from "./components/pagination/Pagination"
@@ -16,6 +17,7 @@ type RepositorySearchClientProps = {
   page: number
   perPage: number
   totalPages: number
+  sort: SearchSort
   order: SearchOrder
   repositories: Repository[]
   errorMessage?: string
@@ -26,6 +28,7 @@ export function RepositorySearchClient({
   page,
   perPage,
   totalPages,
+  sort,
   order,
   repositories,
   errorMessage,
@@ -46,6 +49,7 @@ export function RepositorySearchClient({
           />
           <SearchToolbar
             perPage={perPage}
+            sort={sort}
             order={order}
             disabled={isPending}
             startTransition={startTransition}

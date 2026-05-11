@@ -7,10 +7,12 @@ import { SearchOrder, SearchSort } from "@/lib/constants/search"
 
 import { OrderToggle } from "./components/order-toggle/OrderToggle"
 import { PerPageSelect } from "./components/per-page-select/PerPageSelect"
+import { SortSelect } from "./components/sort-select/SortSelect"
 import styles from "./SearchToolbar.module.css"
 
 type SearchToolbarProps = {
   perPage: number
+  sort: SearchSort
   order: SearchOrder
   disabled?: boolean
   startTransition: (callback: () => void) => void
@@ -18,6 +20,7 @@ type SearchToolbarProps = {
 
 export function SearchToolbar({
   perPage,
+  sort,
   order,
   disabled,
   startTransition,
@@ -49,7 +52,15 @@ export function SearchToolbar({
         />
       </DefinitionItem>
 
-      <DefinitionItem term="ソート" layout="horizontal" termHidden={true}>
+      <DefinitionItem term="ソート" layout="horizontal">
+        <SortSelect
+          value={sort}
+          onChange={(nextSort) => handleChange("sort", nextSort)}
+          disabled={disabled}
+        />
+      </DefinitionItem>
+
+      <DefinitionItem term="表示順" layout="horizontal" termHidden={true}>
         <OrderToggle
           value={order}
           onChange={(nextOrder) => handleChange("order", nextOrder)}

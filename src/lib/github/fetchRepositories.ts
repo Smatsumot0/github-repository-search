@@ -1,5 +1,10 @@
-import { SearchOrder } from "@/features/repository-search/types"
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
+import {
+  DEFAULT_SEARCH_SORT,
+  MIN_SEARCH_QUERY_LENGTH,
+  SEARCH_ORDER,
+  SearchOrder,
+  SearchSort,
+} from "@/lib/constants/search"
 import { GITHUB_API_BASE_URL } from "@/lib/github/constants"
 import { mapRepository } from "@/lib/github/mapper"
 
@@ -9,6 +14,7 @@ type FetchRepositoriesParams = {
   query: string
   page: number
   perPage?: number
+  sort?: SearchSort
   order?: SearchOrder
 }
 
@@ -31,6 +37,7 @@ export async function fetchRepositories({
   query,
   page,
   perPage,
+  sort,
   order,
 }: FetchRepositoriesParams): Promise<FetchRepositoriesResult> {
   const searchQuery = query.trim()
@@ -45,12 +52,14 @@ export async function fetchRepositories({
     }
   }
 
+  console.log(sort)
+
   const params = new URLSearchParams({
     q: searchQuery,
     per_page: String(perPage),
     page: String(page),
-    order: order ?? "asc",
-    sort: "stars",
+    order: order ?? SEARCH_ORDER.ASC,
+    sort: sort ?? DEFAULT_SEARCH_SORT,
   })
 
   const response = await fetch(

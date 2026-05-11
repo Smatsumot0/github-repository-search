@@ -22,11 +22,11 @@ export const DEFAULT_SEARCH_PER_PAGE = 20
 /**
  * 検索結果のソート順オプション
  */
-export const SEARCH_ORDERS = {
+export const SEARCH_ORDER = {
   ASC: "asc",
   DESC: "desc",
 } as const
-export type SearchOrder = (typeof SEARCH_ORDERS)[keyof typeof SEARCH_ORDERS]
+export type SearchOrder = (typeof SEARCH_ORDER)[keyof typeof SEARCH_ORDER]
 
 /**
  * 検索結果のソート項目オプション
