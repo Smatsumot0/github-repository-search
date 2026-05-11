@@ -1,6 +1,6 @@
 "use client"
 
-import { useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
 
 import { Input } from "@/components"
@@ -17,33 +17,43 @@ type SearchInputProps = {
   startTransition: (callback: () => void) => void
 }
 
-export function SearchInput({ startTransition }: SearchInputProps) {
+export function SearchInput({
+  defaultValue = "",
+  startTransition,
+}: SearchInputProps) {
   const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  const initialQuery = searchParams.get("q") ?? ""
-  const [value, setValue] = useState(initialQuery)
+  const [value, setValue] = useState(defaultValue)
 
   const updateQuery = useMemo(
     () =>
       debounce((query: string) => {
-        if (query.length < MIN_SEARCH_QUERY_LENGTH) {
-          startTransition?.(() => {
-            router.replace("/")
+        const trimmedQuery = query.trim()
+        const params = new URLSearchParams(searchParams)
+
+        if (trimmedQuery.length < MIN_SEARCH_QUERY_LENGTH) {
+          params.delete("q")
+          params.set("page", "1")
+
+          startTransition(() => {
+            router.replace(`${pathname}?${params.toString()}`, {
+              scroll: false,
+            })
           })
+
           return
         }
 
-        const params = new URLSearchParams()
-        if (query.trim()) {
-          params.set("q", query)
-        }
+        params.set("q", trimmedQuery)
+        params.set("page", "1")
 
         startTransition(() => {
-          router.replace(`?${params.toString()}`, { scroll: false })
+          router.replace(`${pathname}?${params.toString()}`, { scroll: false })
         })
       }, SEARCH_DEBOUNCE_DELAY_MS),
-    [router, startTransition],
+    [pathname, router, searchParams, startTransition],
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -66,4 +76,3 @@ export function SearchInput({ startTransition }: SearchInputProps) {
     />
   )
 }
-
