@@ -1,7 +1,7 @@
 .meta {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--space-3);
+  gap: var(--gap-sm);
 }
 
 /*===== Mobile =====*/

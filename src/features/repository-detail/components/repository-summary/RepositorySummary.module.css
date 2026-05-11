@@ -1,0 +1,5 @@
+.repositorySummary {
+  display: grid;
+  gap: var(--gap-sm);
+}
+
