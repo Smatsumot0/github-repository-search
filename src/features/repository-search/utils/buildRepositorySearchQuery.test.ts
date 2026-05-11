@@ -30,6 +30,14 @@ describe("buildRepositorySearchQuery", () => {
     ).toBe("react")
   })
 
+  it("query が空白のみの場合、空文字を返す", () => {
+    expect(
+      buildRepositorySearchQuery({
+        query: "   ",
+      }),
+    ).toBe("")
+  })
+
   it("language を含める", () => {
     expect(
       buildRepositorySearchQuery({
@@ -39,6 +47,15 @@ describe("buildRepositorySearchQuery", () => {
     ).toBe("react language:typescript")
   })
 
+  it("language が空文字の場合 language 条件を含めない", () => {
+    expect(
+      buildRepositorySearchQuery({
+        query: "react",
+        language: "",
+      }),
+    ).toBe("react")
+  })
+
   it("minStars を含める", () => {
     expect(
       buildRepositorySearchQuery({
@@ -46,6 +63,15 @@ describe("buildRepositorySearchQuery", () => {
         minStars: 100,
       }),
     ).toBe("react stars:>=100")
+  })
+
+  it("minStars が 0 の場合 stars:>=0 を含める", () => {
+    expect(
+      buildRepositorySearchQuery({
+        query: "react",
+        minStars: 0,
+      }),
+    ).toBe("react stars:>=0")
   })
 
   it("excludeForks が true の場合 fork:false を含める", () => {
@@ -116,3 +142,4 @@ describe("buildRepositorySearchQuery", () => {
     )
   })
 })
+
