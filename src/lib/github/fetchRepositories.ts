@@ -97,6 +97,8 @@ export async function fetchRepositories({
   }
 
   if (!response.ok) {
+    console.log(response)
+
     return {
       success: false,
       message: REPOSITORY_SEARCH_ERROR_MESSAGES.FETCH_FAILED,
@@ -113,3 +115,4 @@ export async function fetchRepositories({
     },
   }
 }
+

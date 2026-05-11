@@ -4,29 +4,20 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 
 import { Button, Loading, Section } from "@/components"
-import { LanguageFilterValue } from "@/lib/constants/language"
-import { PushedPeriod, SearchOrder, SearchSort } from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 
-import { FilterToolbar } from "./components/filter-toolbar/FilterToolbar"
+import {
+  FilterOptions,
+  FilterToolbar,
+} from "./components/filter-toolbar/FilterToolbar"
 import { Pagination } from "./components/pagination/Pagination"
 import { SearchInput } from "./components/search-input/SearchInput"
 import { SearchResults } from "./components/search-results/SearchResults"
-import { SearchToolbar } from "./components/search-toolbar/SearchToolbar"
+import {
+  SearchOptions,
+  SearchToolbar,
+} from "./components/search-toolbar/SearchToolbar"
 import styles from "./RepositorySearch.module.css"
-
-type SearchOptions = {
-  perPage: number
-  sort: SearchSort
-  order: SearchOrder
-}
-
-type FilterOptions = {
-  language?: LanguageFilterValue
-  minStars?: number
-  excludeForks?: boolean
-  pushed?: PushedPeriod
-}
 
 type RepositorySearchClientProps = {
   query: string
@@ -69,9 +60,7 @@ export function RepositorySearchClient({
 
     params.set("page", "1")
 
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`)
-    })
+    router.replace(`${pathname}?${params.toString()}`)
   }
 
   return (
@@ -112,9 +101,10 @@ export function RepositorySearchClient({
             className={styles.actionsContent}
             data-open={openPanel === "search"}>
             <SearchToolbar
-              {...searchOptions}
+              searchOptions={searchOptions}
               disabled={isPending}
               onChange={updateSearchParam}
+              startTransition={startTransition}
             />
           </div>
 
@@ -123,9 +113,10 @@ export function RepositorySearchClient({
             className={styles.actionsContent}
             data-open={openPanel === "filter"}>
             <FilterToolbar
-              {...filterOptions}
+              filterOptions={filterOptions}
               disabled={isPending}
               onChange={updateSearchParam}
+              startTransition={startTransition}
             />
           </div>
         </div>

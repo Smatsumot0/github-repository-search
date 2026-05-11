@@ -1,11 +1,15 @@
-import { LANGUAGE_FILTER_OPTIONS } from "@/lib/constants/language"
+import { parseLanguage } from "@/features/repository-search/utils/validator"
+import {
+  LANGUAGE_FILTER_OPTIONS,
+  LanguageFilterValue,
+} from "@/lib/constants/language"
 
 import { FilterSelect } from "../filter-select/FilterSelect"
 
 type LanguageFilterProps = {
-  value: string
+  value: LanguageFilterValue
   disabled?: boolean
-  onChange: (value: string) => void
+  onChange: (value: LanguageFilterValue) => void
 }
 
 export function LanguageFilter({
@@ -18,7 +22,7 @@ export function LanguageFilter({
       value={value}
       options={LANGUAGE_FILTER_OPTIONS}
       disabled={disabled}
-      onChange={onChange}
+      onChange={(value) => onChange(parseLanguage(value))}
     />
   )
 }

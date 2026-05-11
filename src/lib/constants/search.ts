@@ -54,7 +54,7 @@ export const SEARCH_SORT_LABELS: Record<SearchSort, string> = {
 /**
  * Stars フィルタ項目オプション
  */
-export const MIN_STARS_OPTIONS = [
+export const MIN_STARS_FILTER_OPTIONS = [
   { label: "指定なし", value: "" },
   { label: "10以上", value: "10" },
   { label: "50以上", value: "50" },
@@ -78,7 +78,7 @@ export type PushedPeriod = (typeof PUSHED_PERIOD)[keyof typeof PUSHED_PERIOD]
 /**
  * 最終更新日 フィルタ項目オプション
  */
-export const PUSHED_PERIOD_OPTIONS = [
+export const PUSHED_PERIOD_FILTER_OPTIONS = [
   { label: "指定なし", value: "" },
   { label: "1週間以内", value: PUSHED_PERIOD.WEEK },
   { label: "1ヶ月以内", value: PUSHED_PERIOD.MONTH },
