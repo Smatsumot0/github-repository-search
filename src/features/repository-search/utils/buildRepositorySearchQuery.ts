@@ -8,7 +8,7 @@ type BuildRepositorySearchQueryParams = {
   pushed?: PushedPeriod
 }
 
-function getPushedDate(period: PushedPeriod): string {
+function getPushedSinceDate(period: PushedPeriod): string {
   const date = new Date()
 
   switch (period) {
@@ -29,6 +29,17 @@ function getPushedDate(period: PushedPeriod): string {
   return date.toISOString().slice(0, 10)
 }
 
+/**
+ * GitHub Search API 用の検索クエリを組み立てる
+ *
+ * 指定された検索条件を GitHub の検索構文へ変換して結合する。
+ *
+ * 例:
+ * react language:typescript stars:>=100 fork:false pushed:>2026-05-01
+ *
+ * @param params 検索条件
+ * @returns GitHub Search API 用クエリ
+ */
 export function buildRepositorySearchQuery({
   query,
   language,
@@ -51,7 +62,7 @@ export function buildRepositorySearchQuery({
   }
 
   if (pushed) {
-    conditions.push(`pushed:>${getPushedDate(pushed)}`)
+    conditions.push(`pushed:>${getPushedSinceDate(pushed)}`)
   }
 
   return conditions.join(" ")
