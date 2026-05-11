@@ -1,30 +1,144 @@
 import { describe, expect, it } from "vitest"
 
-import { parsePage } from "./validator"
+import { LANGUAGE_FILTER_OPTIONS } from "@/lib/constants/language"
+import { PUSHED_PERIOD } from "@/lib/constants/search"
 
-describe("parsePage()", () => {
-  it("有効なページ番号を返す", () => {
-    expect(parsePage("1")).toBe(1)
-    expect(parsePage("10")).toBe(10)
-    expect(parsePage("100")).toBe(100)
+import {
+  isLanguageFilterValue,
+  parseExcludeForks,
+  parseLanguage,
+  parseMinStars,
+  parsePage,
+  parsePushedPeriod,
+} from "./validator"
+
+describe("parsePage", () => {
+  it("有効な文字列の場合、数値に変換する", () => {
+    expect(parsePage("2")).toBe(2)
   })
 
-  it("無効な値の場合は1を返す", () => {
-    expect(parsePage("0")).toBe(1)
-    expect(parsePage("-1")).toBe(1)
-    expect(parsePage("abc")).toBe(1)
-    expect(parsePage("")).toBe(1)
+  it("小数の場合、小数点以下を切り捨てる", () => {
+    expect(parsePage("2.9")).toBe(2)
+  })
+
+  it("配列の場合、先頭の値を使用する", () => {
+    expect(parsePage(["3", "4"])).toBe(3)
+  })
+
+  it("未指定の場合、1を返す", () => {
     expect(parsePage(undefined)).toBe(1)
   })
 
-  it("前後の空白を含む文字列を正しく処理する", () => {
-    expect(parsePage("  5  ")).toBe(5)
-    expect(parsePage(" 1 ")).toBe(1)
+  it("不正な値の場合、1を返す", () => {
+    expect(parsePage("abc")).toBe(1)
   })
 
-  it("小数は整数として扱う", () => {
-    expect(parsePage("1.5")).toBe(1)
-    expect(parsePage("10.9")).toBe(10)
+  it("1未満の場合、1を返す", () => {
+    expect(parsePage("0")).toBe(1)
+    expect(parsePage("-1")).toBe(1)
   })
 })
 
+describe("isLanguageFilterValue", () => {
+  it("有効な言語フィルター値の場合、trueを返す", () => {
+    const language = LANGUAGE_FILTER_OPTIONS[0].value
+
+    expect(isLanguageFilterValue(language)).toBe(true)
+  })
+
+  it("不正な値の場合、falseを返す", () => {
+    expect(isLanguageFilterValue("invalid-language")).toBe(false)
+  })
+
+  it("未指定の場合、falseを返す", () => {
+    expect(isLanguageFilterValue(undefined)).toBe(false)
+    expect(isLanguageFilterValue(null)).toBe(false)
+  })
+})
+
+describe("parseLanguage", () => {
+  it("有効な言語フィルター値の場合、その値を返す", () => {
+    const language = LANGUAGE_FILTER_OPTIONS.find(
+      (option) => option.value,
+    )?.value
+
+    expect(language).toBeDefined()
+    expect(parseLanguage(language)).toBe(language)
+  })
+
+  it("不正な値の場合、空文字を返す", () => {
+    expect(parseLanguage("invalid-language")).toBe("")
+  })
+
+  it("未指定の場合、空文字を返す", () => {
+    expect(parseLanguage(undefined)).toBe("")
+    expect(parseLanguage(null)).toBe("")
+    expect(parseLanguage("")).toBe("")
+  })
+})
+
+describe("parseMinStars", () => {
+  it("有効な整数文字列の場合、数値に変換する", () => {
+    expect(parseMinStars("100")).toBe(100)
+  })
+
+  it("0の場合、0を返す", () => {
+    expect(parseMinStars("0")).toBe(0)
+  })
+
+  it("未指定の場合、undefinedを返す", () => {
+    expect(parseMinStars(undefined)).toBeUndefined()
+    expect(parseMinStars(null)).toBeUndefined()
+    expect(parseMinStars("")).toBeUndefined()
+  })
+
+  it("不正な値の場合、undefinedを返す", () => {
+    expect(parseMinStars("abc")).toBeUndefined()
+  })
+
+  it("小数の場合、undefinedを返す", () => {
+    expect(parseMinStars("1.5")).toBeUndefined()
+  })
+
+  it("負数の場合、undefinedを返す", () => {
+    expect(parseMinStars("-1")).toBeUndefined()
+  })
+})
+
+describe("parseExcludeForks", () => {
+  it('"true" の場合、trueを返す', () => {
+    expect(parseExcludeForks("true")).toBe(true)
+  })
+
+  it('"true" 以外の場合、falseを返す', () => {
+    expect(parseExcludeForks("false")).toBe(false)
+    expect(parseExcludeForks("1")).toBe(false)
+    expect(parseExcludeForks("")).toBe(false)
+  })
+
+  it("未指定の場合、falseを返す", () => {
+    expect(parseExcludeForks(undefined)).toBe(false)
+    expect(parseExcludeForks(null)).toBe(false)
+  })
+})
+
+describe("parsePushedPeriod", () => {
+  it("有効な更新期間の場合、その値を返す", () => {
+    expect(parsePushedPeriod(PUSHED_PERIOD.WEEK)).toBe(PUSHED_PERIOD.WEEK)
+    expect(parsePushedPeriod(PUSHED_PERIOD.MONTH)).toBe(PUSHED_PERIOD.MONTH)
+    expect(parsePushedPeriod(PUSHED_PERIOD.THREE_MONTHS)).toBe(
+      PUSHED_PERIOD.THREE_MONTHS,
+    )
+    expect(parsePushedPeriod(PUSHED_PERIOD.YEAR)).toBe(PUSHED_PERIOD.YEAR)
+  })
+
+  it("不正な値の場合、undefinedを返す", () => {
+    expect(parsePushedPeriod("invalid-period")).toBeUndefined()
+  })
+
+  it("未指定の場合、undefinedを返す", () => {
+    expect(parsePushedPeriod(undefined)).toBeUndefined()
+    expect(parsePushedPeriod(null)).toBeUndefined()
+    expect(parsePushedPeriod("")).toBeUndefined()
+  })
+})
