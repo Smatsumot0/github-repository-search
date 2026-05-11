@@ -2,7 +2,10 @@ import { http, HttpResponse } from "msw"
 import { setupServer } from "msw/node"
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest"
 
-import { REPOSITORY_SEARCH_ERROR_MESSAGES } from "@/lib/constants/search"
+import {
+  REPOSITORY_SEARCH_ERROR_MESSAGES,
+  SEARCH_ORDER,
+} from "@/lib/constants/search"
 import { createGitHubRepositoryMock } from "@/test/mocks/github"
 
 import { GITHUB_API_BASE_URL } from "./constants"
@@ -31,31 +34,31 @@ describe("fetchRepositories()", () => {
     expect(result).toEqual({
       success: true,
       data: {
-      totalCount: 1,
-      items: [
-        {
-          id: 123,
-          name: "test-repo",
-          fullName: "owner/test-repo",
-          description: "A test repository",
-          htmlUrl: "https://github.com/owner/test-repo",
-          language: "TypeScript",
-          stargazersCount: 50,
-          watchersCount: 50,
-          forksCount: 10,
-          openIssuesCount: 5,
-          createdAt: "2023-01-01T00:00:00Z",
-          updatedAt: "2023-01-02T00:00:00Z",
-          pushedAt: "2023-01-03T00:00:00Z",
-          owner: {
-            login: "owner",
-            avatarUrl: "https://example.com/avatar.jpg",
-            htmlUrl: "https://github.com/owner",
+        totalCount: 1,
+        items: [
+          {
+            id: 123,
+            name: "test-repo",
+            fullName: "owner/test-repo",
+            description: "A test repository",
+            htmlUrl: "https://github.com/owner/test-repo",
+            language: "TypeScript",
+            stargazersCount: 50,
+            watchersCount: 50,
+            forksCount: 10,
+            openIssuesCount: 5,
+            createdAt: "2023-01-01T00:00:00Z",
+            updatedAt: "2023-01-02T00:00:00Z",
+            pushedAt: "2023-01-03T00:00:00Z",
+            owner: {
+              login: "owner",
+              avatarUrl: "https://example.com/avatar.jpg",
+              htmlUrl: "https://github.com/owner",
+            },
+            homepage: "https://example.com",
+            defaultBranch: "main",
           },
-          homepage: "https://example.com",
-          defaultBranch: "main",
-        },
-      ],
+        ],
       },
     })
   })
@@ -101,25 +104,25 @@ describe("fetchRepositories()", () => {
     expect(requestUrl?.searchParams.get("per_page")).toBe("10")
   })
 
-  // it("sort を指定した場合、リクエストURLに含める", async () => {
-  //   let requestUrl: URL | undefined
+  it("指定したsortをsortクエリとして送信する", async () => {
+    let requestUrl: URL | undefined
 
-  //   server.use(
-  //     http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
-  //       requestUrl = new URL(request.url)
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
+        requestUrl = new URL(request.url)
 
-  //       return HttpResponse.json({
-  //         total_count: 0,
-  //         incomplete_results: false,
-  //         items: [],
-  //       })
-  //     }),
-  //   )
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
 
-  //   await fetchRepositories({ query: "test", page: 1 })
+    await fetchRepositories({ query: "test", page: 1, sort: "best-match" })
 
-  //   expect(requestUrl?.searchParams.get("sort")).toBe("stars")
-  // })
+    expect(requestUrl?.searchParams.get("sort")).toBe("best-match")
+  })
 
   it("指定したorderをorderクエリとして送信する", async () => {
     let requestUrl: URL | undefined
@@ -140,11 +143,11 @@ describe("fetchRepositories()", () => {
       query: "test",
       page: 1,
       perPage: 20,
-      order: "asc",
+      order: SEARCH_ORDER.ASC,
     })
 
     expect(requestUrl).toBeDefined()
-    expect(requestUrl?.searchParams.get("order")).toBe("asc")
+    expect(requestUrl?.searchParams.get("order")).toBe(SEARCH_ORDER.ASC)
   })
 
   it("GitHub APIのレート制限に達した場合、専用のエラーメッセージを返す", async () => {

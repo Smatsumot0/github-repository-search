@@ -81,6 +81,30 @@ describe("SearchToolbar", () => {
     )
   })
 
+  it("ソート項目を変更するとsortを更新してpageを1に戻す", async () => {
+    const user = userEvent.setup()
+
+    render(
+      <SearchToolbar
+        perPage={20}
+        order={SEARCH_ORDER.DESC}
+        sort={DEFAULT_SEARCH_SORT}
+        startTransition={startTransition}
+      />,
+    )
+
+    await user.selectOptions(
+      screen.getByRole("combobox", {
+        name: "ソート項目",
+      }),
+      "updated",
+    )
+
+    expect(replace).toHaveBeenCalledWith(
+      "/?q=react&page=1&perPage=20&order=desc&sort=updated",
+    )
+  })
+
   it("並び順を変更するとorderを更新してpageを1に戻す", async () => {
     const user = userEvent.setup()
 

@@ -2,6 +2,11 @@ import { render, screen } from "@testing-library/react"
 import { http, HttpResponse } from "msw"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
+import {
+  DEFAULT_SEARCH_PER_PAGE,
+  DEFAULT_SEARCH_SORT,
+  SEARCH_ORDER,
+} from "@/lib/constants/search"
 import { GITHUB_API_BASE_URL } from "@/lib/github/constants"
 import { server } from "@/test/server"
 
@@ -63,6 +68,9 @@ describe("RepositorySearch integration", () => {
     const ui = await RepositorySearch({
       query: "r",
       page: 1,
+      perPage: DEFAULT_SEARCH_PER_PAGE,
+      sort: DEFAULT_SEARCH_SORT,
+      order: SEARCH_ORDER.DESC,
     })
 
     render(ui)
@@ -84,6 +92,9 @@ describe("RepositorySearch integration", () => {
     const ui = await RepositorySearch({
       query: "react",
       page: 1,
+      perPage: DEFAULT_SEARCH_PER_PAGE,
+      sort: DEFAULT_SEARCH_SORT,
+      order: SEARCH_ORDER.DESC,
     })
 
     render(ui)
@@ -105,6 +116,9 @@ describe("RepositorySearch integration", () => {
     const ui = await RepositorySearch({
       query: "react",
       page: 1,
+      perPage: DEFAULT_SEARCH_PER_PAGE,
+      sort: DEFAULT_SEARCH_SORT,
+      order: SEARCH_ORDER.DESC,
     })
 
     render(ui)
@@ -130,6 +144,9 @@ describe("RepositorySearch integration", () => {
     const ui = await RepositorySearch({
       query: "zzzzzz-not-found",
       page: 1,
+      perPage: DEFAULT_SEARCH_PER_PAGE,
+      sort: DEFAULT_SEARCH_SORT,
+      order: SEARCH_ORDER.DESC,
     })
 
     render(ui)
@@ -153,6 +170,9 @@ describe("RepositorySearch integration", () => {
       RepositorySearch({
         query: "react",
         page: 1,
+        perPage: DEFAULT_SEARCH_PER_PAGE,
+        sort: DEFAULT_SEARCH_SORT,
+        order: SEARCH_ORDER.DESC,
       }),
     ).rejects.toThrow("Failed to fetch repositories")
   })
