@@ -13,6 +13,7 @@ type DefinitionItemProps = {
   layout?: Layout
   spacingSize?: SpacingSize
   emphasized?: boolean
+  htmlFor?: string
 }
 
 export function DefinitionItem({
@@ -23,6 +24,7 @@ export function DefinitionItem({
   layout = "vertical",
   spacingSize = "sm",
   emphasized = false,
+  htmlFor,
 }: DefinitionItemProps) {
   return (
     <div
@@ -33,12 +35,12 @@ export function DefinitionItem({
         className,
       )}>
       <dt className={clsx(styles.term, termHidden && "visually-hidden")}>
-        {term}
+        {htmlFor ? <label htmlFor={htmlFor}>{term}</label> : term}
       </dt>
+
       <dd className={clsx(styles.description, emphasized && styles.emphasized)}>
         {children}
       </dd>
     </div>
   )
 }
-
