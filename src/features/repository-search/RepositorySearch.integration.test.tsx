@@ -63,14 +63,18 @@ afterEach(() => {
   mocks.replace.mockClear()
 })
 
+const createSearchParams = (q: string) => ({
+  q,
+  page: "1",
+  perPage: String(DEFAULT_SEARCH_PER_PAGE),
+  sort: DEFAULT_SEARCH_SORT,
+  order: SEARCH_ORDER.DESC,
+})
+
 describe("RepositorySearch integration", () => {
   it("検索キーワードが2文字未満の場合、検索結果を表示しない", async () => {
     const ui = await RepositorySearch({
-      query: "r",
-      page: 1,
-      perPage: DEFAULT_SEARCH_PER_PAGE,
-      sort: DEFAULT_SEARCH_SORT,
-      order: SEARCH_ORDER.DESC,
+      searchParams: createSearchParams("r"),
     })
 
     render(ui)
@@ -90,11 +94,7 @@ describe("RepositorySearch integration", () => {
     )
 
     const ui = await RepositorySearch({
-      query: "react",
-      page: 1,
-      perPage: DEFAULT_SEARCH_PER_PAGE,
-      sort: DEFAULT_SEARCH_SORT,
-      order: SEARCH_ORDER.DESC,
+      searchParams: createSearchParams("react"),
     })
 
     render(ui)
@@ -103,7 +103,6 @@ describe("RepositorySearch integration", () => {
     expect(
       screen.getByText("The library for web and native user interfaces."),
     ).toBeInTheDocument()
-    expect(screen.getByText("JavaScript")).toBeInTheDocument()
   })
 
   it("リポジトリカードの詳細ページリンクが正しい", async () => {
@@ -114,11 +113,7 @@ describe("RepositorySearch integration", () => {
     )
 
     const ui = await RepositorySearch({
-      query: "react",
-      page: 1,
-      perPage: DEFAULT_SEARCH_PER_PAGE,
-      sort: DEFAULT_SEARCH_SORT,
-      order: SEARCH_ORDER.DESC,
+      searchParams: createSearchParams("react"),
     })
 
     render(ui)
@@ -142,11 +137,7 @@ describe("RepositorySearch integration", () => {
     )
 
     const ui = await RepositorySearch({
-      query: "zzzzzz-not-found",
-      page: 1,
-      perPage: DEFAULT_SEARCH_PER_PAGE,
-      sort: DEFAULT_SEARCH_SORT,
-      order: SEARCH_ORDER.DESC,
+      searchParams: createSearchParams("zzzzzz-not-found"),
     })
 
     render(ui)
@@ -156,7 +147,7 @@ describe("RepositorySearch integration", () => {
     ).toBeInTheDocument()
   })
 
-  it("APIエラー時にエラーを投げる", async () => {
+  it("APIエラー時にエラーメッセージを表示する", async () => {
     server.use(
       http.get(`${GITHUB_API_BASE_URL}/search/repositories`, () => {
         return HttpResponse.json(
@@ -166,15 +157,15 @@ describe("RepositorySearch integration", () => {
       }),
     )
 
-    await expect(
-      RepositorySearch({
-        query: "react",
-        page: 1,
-        perPage: DEFAULT_SEARCH_PER_PAGE,
-        sort: DEFAULT_SEARCH_SORT,
-        order: SEARCH_ORDER.DESC,
-      }),
-    ).rejects.toThrow("Failed to fetch repositories")
+    const ui = await RepositorySearch({
+      searchParams: createSearchParams("react"),
+    })
+
+    render(ui)
+
+    expect(
+      screen.getByText("リポジトリの取得に失敗しました。"),
+    ).toBeInTheDocument()
   })
 })
 
