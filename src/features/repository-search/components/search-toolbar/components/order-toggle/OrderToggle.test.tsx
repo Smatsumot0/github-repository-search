@@ -2,6 +2,8 @@ import { render, screen } from "@testing-library/react"
 import userEvent from "@testing-library/user-event"
 import { describe, expect, it, vi } from "vitest"
 
+import { SEARCH_ORDER } from "@/lib/constants/search"
+
 import { OrderToggle } from "./OrderToggle"
 
 describe("OrderToggle", () => {
@@ -9,21 +11,22 @@ describe("OrderToggle", () => {
     const user = userEvent.setup()
     const onChange = vi.fn()
 
-    render(<OrderToggle value="desc" onChange={onChange} />)
+    render(<OrderToggle value={SEARCH_ORDER.DESC} onChange={onChange} />)
 
     await user.click(screen.getByRole("button"))
 
-    expect(onChange).toHaveBeenCalledWith("asc")
+    expect(onChange).toHaveBeenCalledWith(SEARCH_ORDER.ASC)
   })
 
   it("ascの場合、クリックでdescを返す", async () => {
     const user = userEvent.setup()
     const onChange = vi.fn()
 
-    render(<OrderToggle value="asc" onChange={onChange} />)
+    render(<OrderToggle value={SEARCH_ORDER.ASC} onChange={onChange} />)
 
     await user.click(screen.getByRole("button"))
 
-    expect(onChange).toHaveBeenCalledWith("desc")
+    expect(onChange).toHaveBeenCalledWith(SEARCH_ORDER.DESC)
   })
 })
+

@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { beforeEach, describe, expect, it, vi } from "vitest"
 
+import { DEFAULT_SEARCH_SORT, SEARCH_ORDER } from "@/lib/constants/search"
+
 import { SearchToolbar } from "./SearchToolbar"
 
 vi.mock("next/navigation", () => ({
@@ -61,7 +63,8 @@ describe("SearchToolbar", () => {
     render(
       <SearchToolbar
         perPage={20}
-        order="desc"
+        sort={DEFAULT_SEARCH_SORT}
+        order={SEARCH_ORDER.DESC}
         startTransition={startTransition}
       />,
     )
@@ -84,7 +87,8 @@ describe("SearchToolbar", () => {
     render(
       <SearchToolbar
         perPage={20}
-        order="desc"
+        order={SEARCH_ORDER.ASC}
+        sort={DEFAULT_SEARCH_SORT}
         startTransition={startTransition}
       />,
     )
@@ -104,7 +108,8 @@ describe("SearchToolbar", () => {
     render(
       <SearchToolbar
         perPage={20}
-        order="desc"
+        order={SEARCH_ORDER.DESC}
+        sort={DEFAULT_SEARCH_SORT}
         disabled
         startTransition={startTransition}
       />,
