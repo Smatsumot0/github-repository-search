@@ -82,6 +82,10 @@ describe("parseLanguage", () => {
     expect(parseLanguage("invalid-language")).toBe("")
   })
 
+  it("空白のみの場合、空文字を返す", () => {
+    expect(parseLanguage("   ")).toBe("")
+  })
+
   it("未指定の場合、空文字を返す", () => {
     expect(parseLanguage(undefined)).toBe("")
     expect(parseLanguage(null)).toBe("")
@@ -154,6 +158,10 @@ describe("parsePushedPeriod", () => {
 
   it("不正な値の場合、undefinedを返す", () => {
     expect(parsePushedPeriod("invalid-period")).toBeUndefined()
+  })
+
+  it("空白のみの場合、undefinedを返す", () => {
+    expect(parsePushedPeriod("   ")).toBeUndefined()
   })
 
   it("未指定の場合、undefinedを返す", () => {

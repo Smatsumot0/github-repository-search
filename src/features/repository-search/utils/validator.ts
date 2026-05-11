@@ -47,7 +47,7 @@ export function isLanguageFilterValue(
 export function parseLanguage(
   value: string | null | undefined,
 ): LanguageFilterValue | "" {
-  if (!value) {
+  if (!value?.trim()) {
     return ""
   }
 
@@ -96,7 +96,9 @@ export function parseExcludeForks(value: string | null | undefined): boolean {
 export function parsePushedPeriod(
   value: string | null | undefined,
 ): PushedPeriod | undefined {
-  if (!value) return undefined
+  if (!value?.trim()) {
+    return undefined
+  }
 
   const periods = Object.values(PUSHED_PERIOD)
 
