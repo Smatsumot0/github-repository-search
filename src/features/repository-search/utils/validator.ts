@@ -65,7 +65,7 @@ export function parseLanguage(
 export function parseMinStars(
   value: string | null | undefined,
 ): number | undefined {
-  if (!value) return undefined
+  if (!value?.trim()) return undefined
 
   const stars = Number(value)
 

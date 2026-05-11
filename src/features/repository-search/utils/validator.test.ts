@@ -37,6 +37,18 @@ describe("parsePage", () => {
     expect(parsePage("0")).toBe(1)
     expect(parsePage("-1")).toBe(1)
   })
+
+  it("空文字の場合、1を返す", () => {
+    expect(parsePage("")).toBe(1)
+  })
+
+  it("空配列の場合、1を返す", () => {
+    expect(parsePage([])).toBe(1)
+  })
+
+  it("Infinity の場合、1を返す", () => {
+    expect(parsePage("Infinity")).toBe(1)
+  })
 })
 
 describe("isLanguageFilterValue", () => {
@@ -84,6 +96,14 @@ describe("parseMinStars", () => {
 
   it("0の場合、0を返す", () => {
     expect(parseMinStars("0")).toBe(0)
+  })
+
+  it("空白のみの場合、undefinedを返す", () => {
+    expect(parseMinStars("   ")).toBeUndefined()
+  })
+
+  it("指数表記の場合、数値に変換する", () => {
+    expect(parseMinStars("1e3")).toBe(1000)
   })
 
   it("未指定の場合、undefinedを返す", () => {
@@ -142,3 +162,4 @@ describe("parsePushedPeriod", () => {
     expect(parsePushedPeriod("")).toBeUndefined()
   })
 })
+
