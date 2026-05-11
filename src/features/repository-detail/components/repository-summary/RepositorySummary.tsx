@@ -1,5 +1,7 @@
 import { LanguageBadge } from "@/components"
-import { DefinitionItem } from "@/features/repository-detail/components/definition-item/DefinitionItem"
+import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
+
+import styles from "./RepositorySummary.module.css"
 
 type RepositorySummaryProps = {
   language: string | null
@@ -11,7 +13,7 @@ export function RepositorySummary({
   description,
 }: RepositorySummaryProps) {
   return (
-    <dl>
+    <dl className={styles.repositorySummary}>
       <DefinitionItem term="Language" termHidden={true}>
         <LanguageBadge language={language ?? "未設定"} />
       </DefinitionItem>

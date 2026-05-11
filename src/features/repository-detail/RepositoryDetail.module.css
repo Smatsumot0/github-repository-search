@@ -1,10 +1,10 @@
 .detail {
   display: grid;
-  gap: var(--space-6);
+  gap: var(--gap-xl);
 }
 
 .main {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--gap-lg);
 }
 

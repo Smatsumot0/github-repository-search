@@ -2,6 +2,8 @@
 
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
+import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
+
 import { PerPageSelect } from "./components/per-page-select/PerPageSelect"
 import styles from "./SearchToolbar.module.css"
 
@@ -26,16 +28,13 @@ export function SearchToolbar({ perPage, disabled }: SearchToolbarProps) {
 
   return (
     <dl className={styles.toolbar}>
-      <div>
-        <dt>表示件数</dt>
-        <dd>
-          <PerPageSelect
-            value={perPage}
-            onChange={handlePerPageChange}
-            disabled={disabled}
-          />
-        </dd>
-      </div>
+      <DefinitionItem term="表示件数" layout="horizontal">
+        <PerPageSelect
+          value={perPage}
+          onChange={handlePerPageChange}
+          disabled={disabled}
+        />
+      </DefinitionItem>
     </dl>
   )
 }

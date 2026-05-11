@@ -1,4 +1,4 @@
-import { DefinitionItem } from "@/features/repository-detail/components/definition-item/DefinitionItem"
+import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
 
 import styles from "./RepositoryMeta.module.css"
 
@@ -9,32 +9,46 @@ type RepositoryMetaProps = {
   pushedAt: string | null
 }
 
+function formatDate(date: string) {
+  return new Date(date).toLocaleDateString("ja-JP")
+}
+
 export function RepositoryMeta({
   defaultBranch,
   createdAt,
   updatedAt,
   pushedAt,
 }: RepositoryMetaProps) {
+  const metaItems = [
+    {
+      term: "Default branch",
+      content: defaultBranch,
+    },
+    {
+      term: "Created",
+      content: <time dateTime={createdAt}>{formatDate(createdAt)}</time>,
+    },
+    {
+      term: "Updated",
+      content: <time dateTime={updatedAt}>{formatDate(updatedAt)}</time>,
+    },
+    ...(pushedAt
+      ? [
+          {
+            term: "Last push",
+            content: <time dateTime={pushedAt}>{formatDate(pushedAt)}</time>,
+          },
+        ]
+      : []),
+  ]
+
   return (
     <dl className={styles.meta}>
-      <DefinitionItem term="Default branch">{defaultBranch}</DefinitionItem>
-      <DefinitionItem term="Created">
-        <time dateTime={createdAt}>
-          {new Date(createdAt).toLocaleDateString("ja-JP")}
-        </time>
-      </DefinitionItem>
-      <DefinitionItem term="Updated">
-        <time dateTime={updatedAt}>
-          {new Date(updatedAt).toLocaleDateString("ja-JP")}
-        </time>
-      </DefinitionItem>
-      {pushedAt && (
-        <DefinitionItem term="Last push">
-          <time dateTime={pushedAt}>
-            {new Date(pushedAt).toLocaleDateString("ja-JP")}
-          </time>
+      {metaItems.map((item) => (
+        <DefinitionItem key={item.term} term={item.term} emphasized>
+          {item.content}
         </DefinitionItem>
-      )}
+      ))}
     </dl>
   )
 }

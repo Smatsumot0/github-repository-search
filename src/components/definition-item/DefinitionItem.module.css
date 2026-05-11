@@ -1,0 +1,36 @@
+.root {
+  display: flex;
+}
+
+.term {
+  color: var(--color-text-secondary);
+  font-size: 0.875rem;
+}
+
+/*===== Layout =====*/
+.vertical {
+  flex-direction: column;
+}
+
+.horizontal {
+  align-items: center;
+}
+
+/*===== Spacing =====*/
+.spacing-sm {
+  gap: var(--gap-sm);
+}
+
+.spacing-md {
+  gap: var(--gap-md);
+}
+
+.spacing-lg {
+  gap: var(--gap-lg);
+}
+
+/*===== Emphasized Description =====*/
+.description.emphasized {
+  font-weight: 700;
+}
+

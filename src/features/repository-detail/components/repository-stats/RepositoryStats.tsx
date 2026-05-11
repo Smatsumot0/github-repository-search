@@ -1,4 +1,4 @@
-import { DefinitionItem } from "@/features/repository-detail/components/definition-item/DefinitionItem"
+import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
 
 import styles from "./RepositoryStats.module.css"
 
@@ -15,20 +15,24 @@ export function RepositoryStats({
   forksCount,
   openIssuesCount,
 }: RepositoryStatsProps) {
+  const stats = [
+    { term: "Stars", value: stargazersCount },
+    { term: "Watchers", value: watchersCount },
+    { term: "Forks", value: forksCount },
+    { term: "Issues", value: openIssuesCount },
+  ]
+
   return (
     <dl className={styles.stats}>
-      <DefinitionItem term="Stars" className={styles.definitionItem}>
-        {stargazersCount.toLocaleString()}
-      </DefinitionItem>
-      <DefinitionItem term="Watchers" className={styles.definitionItem}>
-        {watchersCount.toLocaleString()}
-      </DefinitionItem>
-      <DefinitionItem term="Forks" className={styles.definitionItem}>
-        {forksCount.toLocaleString()}
-      </DefinitionItem>
-      <DefinitionItem term="Issues" className={styles.definitionItem}>
-        {openIssuesCount.toLocaleString()}
-      </DefinitionItem>
+      {stats.map((stat) => (
+        <DefinitionItem
+          key={stat.term}
+          term={stat.term}
+          className={styles.definitionItem}
+          emphasized>
+          {stat.value.toLocaleString()}
+        </DefinitionItem>
+      ))}
     </dl>
   )
 }
