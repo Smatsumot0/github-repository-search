@@ -10,7 +10,6 @@ import { SearchInput } from "./components/search-input/SearchInput"
 import { SearchResults } from "./components/search-results/SearchResults"
 import { SearchToolbar } from "./components/search-toolbar/SearchToolbar"
 import styles from "./RepositorySearch.module.css"
-import { SearchOrder } from "./types"
 
 type RepositorySearchClientProps = {
   query: string

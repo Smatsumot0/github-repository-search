@@ -1,8 +1,9 @@
 import { RepositorySearch } from "@/features/repository-search"
 import { parsePage } from "@/features/repository-search/lib/parsePage"
-import { SEARCH_ORDERS } from "@/features/repository-search/types"
 import {
   DEFAULT_SEARCH_PER_PAGE,
+  DEFAULT_SEARCH_SORT,
+  SEARCH_ORDERS,
   SEARCH_PER_PAGE_OPTIONS,
 } from "@/lib/constants/search"
 

@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
-import { SearchOrder } from "@/features/repository-search/types"
+import { SearchOrder, SearchSort } from "@/lib/constants/search"
 
 import { OrderToggle } from "./components/order-toggle/OrderToggle"
 import { PerPageSelect } from "./components/per-page-select/PerPageSelect"

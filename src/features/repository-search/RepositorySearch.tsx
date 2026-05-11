@@ -1,3 +1,4 @@
+import { SearchOrder, SearchSort } from "@/lib/constants/search"
 import { fetchRepositories } from "@/lib/github/fetchRepositories"
 
 import { RepositorySearchClient } from "./RepositorySearchClient"
