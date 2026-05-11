@@ -16,8 +16,23 @@ export async function RepositorySearch({
   perPage,
   order,
 }: RepositorySearchProps) {
-  const result = await fetchRepositories({ query, page, perPage })
-  const cappedTotal = Math.min(result.totalCount, 1000)
+  const result = await fetchRepositories({ query, page, perPage, order })
+
+  if (!result.success) {
+    return (
+      <RepositorySearchClient
+        query={query}
+        page={page}
+        perPage={perPage}
+        totalPages={0}
+        order={order}
+        repositories={[]}
+        errorMessage={result.message}
+      />
+    )
+  }
+
+  const cappedTotal = Math.min(result.data.totalCount, 1000)
   const totalPages = Math.ceil(cappedTotal / perPage)
 
   return (
@@ -27,7 +42,7 @@ export async function RepositorySearch({
       perPage={perPage}
       totalPages={totalPages}
       order={order}
-      repositories={result.items}
+      repositories={result.data.items}
     />
   )
 }

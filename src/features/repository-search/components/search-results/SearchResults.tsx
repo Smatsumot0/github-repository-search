@@ -7,9 +7,19 @@ import styles from "./SearchResults.module.css"
 type SearchResultsProps = {
   repositories: Repository[]
   query?: string
+  errorMessage?: string
 }
 
-export function SearchResults({ repositories, query }: SearchResultsProps) {
+export function SearchResults({
+  repositories,
+  query,
+  errorMessage,
+}: SearchResultsProps) {
+  // エラーメッセージがある場合
+  if (errorMessage) {
+    return <p className={styles.message}>{errorMessage}</p>
+  }
+
   // 未検索
   if (!query || query.length < MIN_SEARCH_QUERY_LENGTH) {
     return (

@@ -19,6 +19,7 @@ type RepositorySearchClientProps = {
   totalPages: number
   order: SearchOrder
   repositories: Repository[]
+  errorMessage?: string
 }
 
 export function RepositorySearchClient({
@@ -28,6 +29,7 @@ export function RepositorySearchClient({
   totalPages,
   order,
   repositories,
+  errorMessage,
 }: RepositorySearchClientProps) {
   const [isPending, startTransition] = useTransition()
 
@@ -55,7 +57,11 @@ export function RepositorySearchClient({
       <div className={styles.resultsArea} aria-busy={isPending}>
         <Loading isLoading={isPending} />
 
-        <SearchResults repositories={repositories} query={query} />
+        <SearchResults
+          repositories={repositories}
+          query={query}
+          errorMessage={errorMessage}
+        />
       </div>
     </Section>
   )
