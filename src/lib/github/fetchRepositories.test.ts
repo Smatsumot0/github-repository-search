@@ -2,6 +2,7 @@ import { http, HttpResponse } from "msw"
 import { setupServer } from "msw/node"
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest"
 
+import { REPOSITORY_SEARCH_ERROR_MESSAGES } from "@/lib/constants/search"
 import { createGitHubRepositoryMock } from "@/test/mocks/github"
 
 import { GITHUB_API_BASE_URL } from "./constants"
@@ -28,6 +29,8 @@ describe("fetchRepositories()", () => {
     const result = await fetchRepositories({ query: "test", page: 1 })
 
     expect(result).toEqual({
+      success: true,
+      data: {
       totalCount: 1,
       items: [
         {
@@ -53,6 +56,7 @@ describe("fetchRepositories()", () => {
           defaultBranch: "main",
         },
       ],
+      },
     })
   })
 
@@ -143,16 +147,34 @@ describe("fetchRepositories()", () => {
     expect(requestUrl?.searchParams.get("order")).toBe("asc")
   })
 
-  it("APIエラーの場合、例外を投げる", async () => {
+  it("GitHub APIのレート制限に達した場合、専用のエラーメッセージを返す", async () => {
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, () => {
+        return new HttpResponse(null, { status: 403 })
+      }),
+    )
+
+    await expect(
+      fetchRepositories({ query: "test", page: 1 }),
+    ).resolves.toEqual({
+      success: false,
+      message: REPOSITORY_SEARCH_ERROR_MESSAGES.RATE_LIMIT,
+    })
+  })
+
+  it("APIエラーの場合、エラーメッセージを返す", async () => {
     server.use(
       http.get(`${GITHUB_API_BASE_URL}/search/repositories`, () => {
         return new HttpResponse(null, { status: 422 })
       }),
     )
 
-    await expect(fetchRepositories({ query: "test", page: 1 })).rejects.toThrow(
-      "Failed to fetch repositories",
-    )
+    await expect(
+      fetchRepositories({ query: "test", page: 1 }),
+    ).resolves.toEqual({
+      success: false,
+      message: REPOSITORY_SEARCH_ERROR_MESSAGES.FETCH_FAILED,
+    })
   })
 })
 
