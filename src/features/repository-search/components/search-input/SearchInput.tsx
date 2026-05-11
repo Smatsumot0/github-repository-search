@@ -12,11 +12,10 @@ import { Input } from "@/components"
 
 type SearchInputProps = {
   defaultValue?: string
-  disabled?: boolean
   startTransition: (callback: () => void) => void
 }
 
-export function SearchInput({ disabled, startTransition }: SearchInputProps) {
+export function SearchInput({ startTransition }: SearchInputProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -46,8 +45,6 @@ export function SearchInput({ disabled, startTransition }: SearchInputProps) {
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (disabled) return
-
     const nextValue = e.target.value
     setValue(nextValue)
     updateQuery(nextValue)
@@ -62,7 +59,6 @@ export function SearchInput({ disabled, startTransition }: SearchInputProps) {
       onChange={handleChange}
       placeholder="リポジトリを検索"
       aria-label="GitHubリポジトリを検索"
-      aria-busy={disabled}
       autoComplete="off"
       spellCheck={false}
     />

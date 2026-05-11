@@ -26,11 +26,7 @@ export function RepositorySearchClient({
   return (
     <Section aria-label="GitHubリポジトリの検索">
       <div className={styles.controls}>
-        <SearchInput
-          defaultValue={query}
-          disabled={isPending}
-          startTransition={startTransition}
-        />
+        <SearchInput defaultValue={query} startTransition={startTransition} />
 
         <Pagination
           currentPage={page}
