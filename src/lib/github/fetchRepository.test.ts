@@ -1,9 +1,11 @@
-import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest"
 import { http, HttpResponse } from "msw"
 import { setupServer } from "msw/node"
-import { fetchRepository } from "./fetchRepository"
-import { GITHUB_API_BASE_URL } from "./constants"
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest"
+
 import { createGitHubRepositoryMock } from "@/test/mocks/github"
+
+import { GITHUB_API_BASE_URL } from "./constants"
+import { fetchRepository } from "./fetchRepository"
 
 const server = setupServer()
 

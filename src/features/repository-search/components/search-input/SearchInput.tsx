@@ -1,14 +1,16 @@
 "use client"
 
-import { debounce } from "@/lib/utils/debounce"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useMemo, useState } from "react"
-import styles from "./SearchInput.module.css"
+
+import { Input } from "@/components"
 import {
   MIN_SEARCH_QUERY_LENGTH,
   SEARCH_DEBOUNCE_DELAY_MS,
 } from "@/lib/constants/search"
-import { Input } from "@/components"
+import { debounce } from "@/lib/utils/debounce"
+
+import styles from "./SearchInput.module.css"
 
 type SearchInputProps = {
   defaultValue?: string

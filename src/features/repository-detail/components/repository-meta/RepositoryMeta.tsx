@@ -1,4 +1,5 @@
 import { DefinitionItem } from "@/features/repository-detail/components/definition-item/DefinitionItem"
+
 import styles from "./RepositoryMeta.module.css"
 
 type RepositoryMetaProps = {

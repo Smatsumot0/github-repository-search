@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react"
-import { afterEach, describe, expect, it, vi } from "vitest"
 import { http, HttpResponse } from "msw"
+import { afterEach, describe, expect, it, vi } from "vitest"
+
 import { GITHUB_API_BASE_URL } from "@/lib/github/constants"
-import { RepositorySearch } from "./RepositorySearch"
 import { server } from "@/test/server"
+
+import { RepositorySearch } from "./RepositorySearch"
 
 const mockGitHubSearchResponse = {
   total_count: 1,

@@ -1,6 +1,7 @@
-import { ComponentPropsWithoutRef } from "react"
-import styles from "./Button.module.css"
 import clsx from "clsx"
+import { ComponentPropsWithoutRef } from "react"
+
+import styles from "./Button.module.css"
 
 type ButtonProps = ComponentPropsWithoutRef<"button">
 

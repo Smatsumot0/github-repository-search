@@ -1,10 +1,11 @@
-import { Repository } from "@/lib/github/types"
-import styles from "./RepositoryDetail.module.css"
 import { RepositoryHeader } from "@/features/repository-detail/components/repository-header/RepositoryHeader"
-import { RepositorySummary } from "@/features/repository-detail/components/repository-summary/RepositorySummary"
-import { RepositoryStats } from "@/features/repository-detail/components/repository-stats/RepositoryStats"
 import { RepositoryLinks } from "@/features/repository-detail/components/repository-links/RepositoryLinks"
 import { RepositoryMeta } from "@/features/repository-detail/components/repository-meta/RepositoryMeta"
+import { RepositoryStats } from "@/features/repository-detail/components/repository-stats/RepositoryStats"
+import { RepositorySummary } from "@/features/repository-detail/components/repository-summary/RepositorySummary"
+import { Repository } from "@/lib/github/types"
+
+import styles from "./RepositoryDetail.module.css"
 
 type RepositoryDetailProps = {
   repository: Repository

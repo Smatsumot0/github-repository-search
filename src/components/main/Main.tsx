@@ -1,6 +1,7 @@
-import { ComponentPropsWithoutRef } from "react"
-import styles from "./Main.module.css"
 import clsx from "clsx"
+import { ComponentPropsWithoutRef } from "react"
+
+import styles from "./Main.module.css"
 
 type MainProps = ComponentPropsWithoutRef<"main">
 

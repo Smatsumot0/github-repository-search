@@ -1,10 +1,12 @@
 "use client"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import styles from "./Pagination.module.css"
-import { Button } from "@/components"
 import clsx from "clsx"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+
+import { Button } from "@/components"
+
 import { PageInput } from "./components/PageInput"
+import styles from "./Pagination.module.css"
 
 type PaginationProps = {
   currentPage: number

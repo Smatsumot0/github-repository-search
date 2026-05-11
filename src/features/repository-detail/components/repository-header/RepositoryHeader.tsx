@@ -1,6 +1,8 @@
-import styles from "./RepositoryHeader.module.css"
 import Image from "next/image"
+
 import { Repository } from "@/lib/github/types"
+
+import styles from "./RepositoryHeader.module.css"
 
 type RepositoryHeaderProps = {
   owner: Repository["owner"]

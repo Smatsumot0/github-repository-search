@@ -1,12 +1,14 @@
 "use client"
 
 import { useTransition } from "react"
-import { SearchInput } from "./components/search-input/SearchInput"
+
+import { Loading, Section } from "@/components"
+import { Repository } from "@/lib/github/types"
+
 import { Pagination } from "./components/pagination/Pagination"
+import { SearchInput } from "./components/search-input/SearchInput"
 import { SearchResults } from "./components/search-results/SearchResults"
 import styles from "./RepositorySearch.module.css"
-import { Repository } from "@/lib/github/types"
-import { Section, Loading } from "@/components"
 
 type RepositorySearchClientProps = {
   query: string

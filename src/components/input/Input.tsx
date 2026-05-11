@@ -1,5 +1,6 @@
-import { ComponentPropsWithoutRef } from "react"
 import clsx from "clsx"
+import { ComponentPropsWithoutRef } from "react"
+
 import styles from "./Input.module.css"
 
 type InputProps = ComponentPropsWithoutRef<"input">

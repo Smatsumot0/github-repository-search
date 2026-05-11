@@ -1,7 +1,8 @@
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
-import { Repository, SearchRepositoriesResponse } from "./types"
 import { GITHUB_API_BASE_URL, SEARCH_PER_PAGE } from "@/lib/github/constants"
 import { mapRepository } from "@/lib/github/mapper"
+
+import { Repository, SearchRepositoriesResponse } from "./types"
 
 type FetchRepositoriesParams = {
   query: string

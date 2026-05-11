@@ -1,6 +1,7 @@
-import { ComponentPropsWithoutRef } from "react"
-import styles from "./Section.module.css"
 import clsx from "clsx"
+import { ComponentPropsWithoutRef } from "react"
+
+import styles from "./Section.module.css"
 
 type SectionProps = ComponentPropsWithoutRef<"section">
 

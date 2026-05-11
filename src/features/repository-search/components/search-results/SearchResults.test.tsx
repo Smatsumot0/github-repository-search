@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
-import { SearchResults } from "./SearchResults"
+
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 import { createRepositoryMock } from "@/test/mocks/repository"
+
+import { SearchResults } from "./SearchResults"
 
 vi.mock("../repository-card/RepositoryCard", () => ({
   RepositoryCard: ({ repository }: { repository: Repository }) => (

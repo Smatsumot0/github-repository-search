@@ -1,7 +1,8 @@
-import { Repository } from "@/lib/github/types"
-import styles from "./SearchResults.module.css"
 import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
+import { Repository } from "@/lib/github/types"
+
 import { RepositoryCard } from "../repository-card/RepositoryCard"
+import styles from "./SearchResults.module.css"
 
 type SearchResultsProps = {
   repositories: Repository[]

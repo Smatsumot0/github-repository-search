@@ -1,5 +1,6 @@
-import { fetchRepositories } from "@/lib/github/fetchRepositories"
 import { SEARCH_PER_PAGE } from "@/lib/github/constants"
+import { fetchRepositories } from "@/lib/github/fetchRepositories"
+
 import { RepositorySearchClient } from "./RepositorySearchClient"
 
 type RepositorySearchProps = {

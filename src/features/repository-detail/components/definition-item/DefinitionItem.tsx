@@ -1,5 +1,6 @@
-import styles from "./DefinitionItem.module.css"
 import clsx from "clsx"
+
+import styles from "./DefinitionItem.module.css"
 
 type DefinitionItemProps = {
   term: string

@@ -1,8 +1,10 @@
-import { Repository } from "@/lib/github/types"
-import Link from "next/link"
-import styles from "./RepositoryCard.module.css"
 import Image from "next/image"
+import Link from "next/link"
+
 import { LanguageBadge } from "@/components"
+import { Repository } from "@/lib/github/types"
+
+import styles from "./RepositoryCard.module.css"
 
 type RepositoryCardProps = {
   repository: Repository

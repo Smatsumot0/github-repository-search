@@ -1,5 +1,6 @@
-import { ComponentPropsWithoutRef } from "react"
 import clsx from "clsx"
+import { ComponentPropsWithoutRef } from "react"
+
 import styles from "./Select.module.css"
 
 type SelectOption<T extends string | number> = {

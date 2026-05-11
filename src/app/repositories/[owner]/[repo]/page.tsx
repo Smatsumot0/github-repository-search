@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
-import { fetchRepository } from "@/lib/github/fetchRepository"
+
 import { RepositoryDetail } from "@/features/repository-detail"
+import { fetchRepository } from "@/lib/github/fetchRepository"
 
 type RepositoryDetailPageProps = {
   params: Promise<{

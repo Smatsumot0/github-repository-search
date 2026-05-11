@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest"
-import { mapRepository } from "./mapper"
+
 import { createGitHubRepositoryMock } from "@/test/mocks/github"
+
+import { mapRepository } from "./mapper"
 
 describe("mapRepository()", () => {
   it("GitHubRepositoryをRepositoryに正しくマッピングする", () => {

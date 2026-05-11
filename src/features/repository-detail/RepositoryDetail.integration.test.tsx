@@ -1,7 +1,9 @@
 import { render, screen } from "@testing-library/react"
 import { describe, expect, it } from "vitest"
-import { RepositoryDetail } from "./RepositoryDetail"
+
 import { createRepositoryMock } from "@/test/mocks/repository"
+
+import { RepositoryDetail } from "./RepositoryDetail"
 
 describe("RepositoryDetail integration", () => {
   it("リポジトリの基本情報を表示する", () => {

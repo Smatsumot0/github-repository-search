@@ -1,10 +1,10 @@
 export * from "./anchor/Anchor"
 export * from "./button/Button"
-export * from "./header/Header"
 export * from "./footer/Footer"
+export * from "./header/Header"
 export * from "./input/Input"
-export * from "./main/Main"
-export * from "./section/Section"
 export * from "./language-badge/LanguageBadge"
 export * from "./loading/Loading"
+export * from "./main/Main"
+export * from "./section/Section"
 

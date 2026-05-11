@@ -1,4 +1,5 @@
 import { Anchor, Section } from "@/components"
+
 import styles from "./NotFound.module.css"
 
 export function NotFound() {

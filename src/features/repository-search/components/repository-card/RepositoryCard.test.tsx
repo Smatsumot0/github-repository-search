@@ -1,8 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { render, screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
-import { RepositoryCard } from "./RepositoryCard"
+
 import { createRepositoryMock } from "@/test/mocks/repository"
+
+import { RepositoryCard } from "./RepositoryCard"
 
 vi.mock("next/image", () => ({
   default: ({
