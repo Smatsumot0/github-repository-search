@@ -1,4 +1,7 @@
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
+import {
+  MIN_SEARCH_QUERY_LENGTH,
+  REPOSITORY_SEARCH_MESSAGES,
+} from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 
 import { RepositoryCard } from "../repository-card/RepositoryCard"
@@ -26,7 +29,7 @@ export function SearchResults({
   if (!query || query.length < MIN_SEARCH_QUERY_LENGTH) {
     return (
       <p className={styles.message}>
-        2文字以上入力してリポジトリを検索してください
+        {REPOSITORY_SEARCH_MESSAGES.SEARCH_PROMPT}
       </p>
     )
   }
@@ -34,7 +37,7 @@ export function SearchResults({
   // 検索結果なし
   if (repositories.length === 0) {
     return (
-      <p className={styles.message}>該当するリポジトリが見つかりませんでした</p>
+      <p className={styles.message}>{REPOSITORY_SEARCH_MESSAGES.NO_RESULTS}</p>
     )
   }
 
@@ -42,7 +45,7 @@ export function SearchResults({
   return (
     <div className={styles.root}>
       <p className={styles.totalCount}>
-        検索結果 {totalCount?.toLocaleString() ?? 0} 件
+        {REPOSITORY_SEARCH_MESSAGES.TOTAL_COUNT(totalCount ?? 0)}
       </p>
 
       <ul className={styles.list} aria-label="検索結果">

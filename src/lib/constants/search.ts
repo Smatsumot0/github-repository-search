@@ -87,6 +87,15 @@ export const PUSHED_PERIOD_FILTER_OPTIONS = [
 ] as const
 
 /**
+ * 検索画面用メッセージ
+ */
+export const REPOSITORY_SEARCH_MESSAGES = {
+  SEARCH_PROMPT: "2文字以上入力してリポジトリを検索してください",
+  NO_RESULTS: "該当するリポジトリが見つかりませんでした",
+  TOTAL_COUNT: (count: number) => `検索結果 ${count.toLocaleString()} 件`,
+} as const
+
+/**
  * 検索エラーのメッセージ
  */
 export const REPOSITORY_SEARCH_ERROR_MESSAGES = {
