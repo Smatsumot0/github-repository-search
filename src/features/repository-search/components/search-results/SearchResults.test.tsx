@@ -1,7 +1,10 @@
 import { render, screen } from "@testing-library/react"
 import { describe, expect, it, vi } from "vitest"
 
-import { MIN_SEARCH_QUERY_LENGTH } from "@/lib/constants/search"
+import {
+  MIN_SEARCH_QUERY_LENGTH,
+  REPOSITORY_SEARCH_MESSAGES,
+} from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 import { createRepositoryMock } from "@/test/mocks/repository"
 
@@ -23,11 +26,30 @@ const repositories = [
 ]
 
 describe("SearchResults", () => {
+  it("errorMessageがある場合、エラーメッセージを表示する", () => {
+    render(
+      <SearchResults
+        repositories={repositories}
+        query="react"
+        errorMessage="エラーが発生しました"
+        totalCount={12345}
+      />,
+    )
+
+    expect(screen.getByText("エラーが発生しました")).toBeInTheDocument()
+    expect(
+      screen.queryByRole("list", { name: "検索結果" }),
+    ).not.toBeInTheDocument()
+    expect(
+      screen.queryByText(REPOSITORY_SEARCH_MESSAGES.TOTAL_COUNT(12345)),
+    ).not.toBeInTheDocument()
+  })
+
   it("queryが未指定の場合、検索前メッセージを表示する", () => {
     render(<SearchResults repositories={[]} />)
 
     expect(
-      screen.getByText("2文字以上入力してリポジトリを検索してください"),
+      screen.getByText(REPOSITORY_SEARCH_MESSAGES.SEARCH_PROMPT),
     ).toBeInTheDocument()
   })
 
@@ -40,7 +62,7 @@ describe("SearchResults", () => {
     )
 
     expect(
-      screen.getByText("2文字以上入力してリポジトリを検索してください"),
+      screen.getByText(REPOSITORY_SEARCH_MESSAGES.SEARCH_PROMPT),
     ).toBeInTheDocument()
   })
 
@@ -53,12 +75,12 @@ describe("SearchResults", () => {
     )
 
     expect(
-      screen.getByText("該当するリポジトリが見つかりませんでした"),
+      screen.getByText(REPOSITORY_SEARCH_MESSAGES.NO_RESULTS),
     ).toBeInTheDocument()
   })
 
   it("検索結果がある場合、検索結果リストを表示する", () => {
-    render(<SearchResults repositories={repositories} query={"react"} />)
+    render(<SearchResults repositories={repositories} query="react" />)
 
     expect(screen.getByRole("list", { name: "検索結果" })).toBeInTheDocument()
     expect(screen.getAllByRole("listitem")).toHaveLength(2)
@@ -66,16 +88,29 @@ describe("SearchResults", () => {
     expect(screen.getByText("vercel/next.js")).toBeInTheDocument()
   })
 
-  it("検索結果がある場合、メッセージは表示しない", () => {
-    render(<SearchResults repositories={repositories} query={"react"} />)
+  it("検索結果がある場合、総件数を表示する", () => {
+    render(
+      <SearchResults
+        repositories={repositories}
+        query="react"
+        totalCount={12345}
+      />,
+    )
 
     expect(
-      screen.queryByText("2文字以上入力してリポジトリを検索してください"),
+      screen.getByText(REPOSITORY_SEARCH_MESSAGES.TOTAL_COUNT(12345)),
+    ).toBeInTheDocument()
+  })
+
+  it("検索結果がある場合、メッセージは表示しない", () => {
+    render(<SearchResults repositories={repositories} query="react" />)
+
+    expect(
+      screen.queryByText(REPOSITORY_SEARCH_MESSAGES.SEARCH_PROMPT),
     ).not.toBeInTheDocument()
 
     expect(
-      screen.queryByText("該当するリポジトリが見つかりませんでした"),
+      screen.queryByText(REPOSITORY_SEARCH_MESSAGES.NO_RESULTS),
     ).not.toBeInTheDocument()
   })
 })
-
