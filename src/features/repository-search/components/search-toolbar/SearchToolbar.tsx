@@ -1,5 +1,3 @@
-import clsx from "clsx"
-
 import { DefinitionItem } from "@/components"
 import { SearchOrder, SearchSort } from "@/lib/constants/search"
 
@@ -25,7 +23,7 @@ export function SearchToolbar({
 }: SearchToolbarProps) {
   return (
     <>
-      <dl className={clsx(styles.toolbar, styles.controlToolbar)}>
+      <dl className={styles.toolbar}>
         <DefinitionItem term="表示件数" layout="horizontal">
           <PerPageSelect
             value={perPage}
