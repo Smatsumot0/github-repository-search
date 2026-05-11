@@ -1,5 +1,6 @@
-import { Select } from "@/components"
 import { SEARCH_PER_PAGE_OPTIONS } from "@/lib/constants/search"
+
+import { SearchSelect } from "../search-select/SearchSelect"
 
 type PerPageSelectProps = {
   value: number
@@ -9,7 +10,7 @@ type PerPageSelectProps = {
 
 const OPTIONS = SEARCH_PER_PAGE_OPTIONS.map((option) => ({
   label: `${option}件`,
-  value: String(option),
+  value: option,
 }))
 
 export function PerPageSelect({
@@ -18,13 +19,12 @@ export function PerPageSelect({
   disabled = false,
 }: PerPageSelectProps) {
   return (
-    <Select
+    <SearchSelect
       aria-label="1ページあたりの表示件数"
-      value={String(value)}
-      disabled={disabled}
+      value={value}
       options={OPTIONS}
-      onChange={(value) => onChange(Number(value))}
+      onChange={onChange}
+      disabled={disabled}
     />
   )
 }
-
