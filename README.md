@@ -1,7 +1,7 @@
 # GitHub Repository Search
 
 Next.js App Router を使用して作成した GitHub リポジトリ検索アプリケーションです。  
-GitHub REST API (`search/repositories`, `repositories`) を利用し、リポジトリの検索・絞り込み・ソート・詳細表示ができます。
+GitHub REST API (`search/repositories`, `repos/{owner}/{repo}`) を利用しリポジトリの検索・絞り込み・ソート・詳細表示ができます。
 
 ## 使用技術
 
@@ -45,10 +45,14 @@ GitHub REST API (`search/repositories`, `repositories`) を利用し、リポジ
 - ローディング表示
 - エラー表示
 - レスポンシブ対応
-- ダークモード対応
+- ダークテーマ対応
 - テスト実装
 
 ---
+
+## デモ
+
+[https://github-repository-search-ten.vercel.app/](https://github-repository-search-ten.vercel.app/)
 
 ## セットアップ
 
@@ -168,7 +172,7 @@ URL 由来の値をそのまま信用しない構成にしています。
 - エラーメッセージ
 - ローディング表示
 - レスポンシブ対応
-- ダークモード対応
+- ダークテーマ対応
 - semantic HTML の利用
 - 画像の代替テキスト
 - キーボード操作への配慮
@@ -209,19 +213,19 @@ API 通信を伴う処理は MSW でモック化し、外部 API の状態に依
 
 ```text
 src/
-├── app/                  # ルーティング
-│   └── repositories/     # リポジトリ詳細ページ
-├── components/           # 汎用 UI コンポーネント
+├── app/                     # ルーティング
+│   └── repositories/       # リポジトリ詳細ページ
+├── components/              # 汎用 UI コンポーネント
 ├── features/
-│   ├── repository-search/ # リポジトリ検索機能
-│   ├── repository-detail/ # リポジトリ詳細機能
-│   └── not-found/         # 404 表示
+│   ├── repository-search   # リポジトリ検索機能
+│   ├── repository-detail/  # リポジトリ詳細機能
+│   └── not-found/          # 404 表示
 ├── lib/
-│   ├── github/           # GitHub API 通信・データ変換
-│   ├── constants/        # 定数
-│   └── utils/            # 汎用ユーティリティ
-├── styles/               # グローバルスタイル / デザイントークン
-└── test/                 # テスト設定 / モック
+│   ├── github/             # GitHub API 通信・データ変換
+│   ├── constants/          # 定数
+│   └── utils/              # 汎用ユーティリティ
+├── styles/                  # グローバルスタイル / デザイントークン
+└── test/                    # テスト設定 / モック
 ```
 
 ---
@@ -235,5 +239,7 @@ src/
 - README の文章整理
 - コード改善案の検討
 
-ただし、生成結果をそのまま使用せず、課題要件や実装内容に合わせて内容を確認・修正したうえで採用しています。
+ただし、生成結果をそのまま採用せず、
+課題要件・実装内容・設計意図に照らして内容を確認し、
+必要な修正を行ったうえで利用しています。
 
