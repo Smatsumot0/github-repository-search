@@ -5,9 +5,14 @@ import styles from "./Button.module.css"
 
 type ButtonProps = ComponentPropsWithoutRef<"button">
 
-export function Button({ children, className, ...props }: ButtonProps) {
+export function Button({
+  children,
+  className,
+  type = "button",
+  ...props
+}: ButtonProps) {
   return (
-    <button className={clsx(styles.button, className)} {...props}>
+    <button className={clsx(styles.button, className)} type={type} {...props}>
       {children}
     </button>
   )

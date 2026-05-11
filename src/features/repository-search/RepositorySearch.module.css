@@ -16,7 +16,27 @@
   grid-template-columns: max-content 1fr;
 }
 
+.toggleButton {
+  display: none;
+}
+
 .resultsArea {
   position: relative;
+}
+
+/*===== Mobile =====*/
+@media (max-width: 767px) {
+  .searchActions {
+    grid-template-columns: 1fr;
+    gap: var(--gap-sm);
+  }
+
+  .toggleButton {
+    display: block;
+  }
+
+  .actionsContent[data-open="false"] {
+    display: none;
+  }
 }
 

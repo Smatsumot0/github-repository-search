@@ -1,8 +1,8 @@
 "use client"
 
-import { useTransition } from "react"
+import { useState, useTransition } from "react"
 
-import { Loading, Section } from "@/components"
+import { Button, Loading, Section } from "@/components"
 import { SearchOrder, SearchSort } from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 
@@ -34,6 +34,7 @@ export function RepositorySearchClient({
   errorMessage,
 }: RepositorySearchClientProps) {
   const [isPending, startTransition] = useTransition()
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <Section aria-label="GitHubリポジトリの検索">
@@ -41,19 +42,35 @@ export function RepositorySearchClient({
         <SearchInput defaultValue={query} startTransition={startTransition} />
 
         <div className={styles.searchActions}>
-          <Pagination
-            currentPage={page}
-            totalPages={totalPages}
-            disabled={isPending}
-            startTransition={startTransition}
-          />
-          <SearchToolbar
-            perPage={perPage}
-            sort={sort}
-            order={order}
-            disabled={isPending}
-            startTransition={startTransition}
-          />
+          <div className={styles.actionsContent}>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              disabled={isPending}
+              startTransition={startTransition}
+            />
+          </div>
+
+          <Button
+            className={styles.toggleButton}
+            onClick={() => setIsOpen((prev) => !prev)}
+            aria-expanded={isOpen}
+            aria-controls="search-actions-content">
+            検索オプション
+          </Button>
+
+          <div
+            id="search-actions-content"
+            className={styles.actionsContent}
+            data-open={isOpen}>
+            <SearchToolbar
+              perPage={perPage}
+              sort={sort}
+              order={order}
+              disabled={isPending}
+              startTransition={startTransition}
+            />
+          </div>
         </div>
       </div>
 

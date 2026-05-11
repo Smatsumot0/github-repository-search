@@ -22,3 +22,11 @@
   gap: var(--gap-sm);
 }
 
+/*===== Mobile =====*/
+@media (max-width: 767px) {
+  .toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+

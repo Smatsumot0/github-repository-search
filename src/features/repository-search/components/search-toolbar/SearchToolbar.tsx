@@ -52,21 +52,23 @@ export function SearchToolbar({
         />
       </DefinitionItem>
 
-      <DefinitionItem term="ソート" layout="horizontal">
-        <SortSelect
-          value={sort}
-          onChange={(nextSort) => handleChange("sort", nextSort)}
-          disabled={disabled}
-        />
-      </DefinitionItem>
+      <div>
+        <DefinitionItem term="ソート" layout="horizontal">
+          <SortSelect
+            value={sort}
+            onChange={(nextSort) => handleChange("sort", nextSort)}
+            disabled={disabled}
+          />
+        </DefinitionItem>
 
-      <DefinitionItem term="表示順" layout="horizontal" termHidden={true}>
-        <OrderToggle
-          value={order}
-          onChange={(nextOrder) => handleChange("order", nextOrder)}
-          disabled={disabled}
-        />
-      </DefinitionItem>
+        <DefinitionItem term="表示順" layout="horizontal" termHidden={true}>
+          <OrderToggle
+            value={order}
+            onChange={(nextOrder) => handleChange("order", nextOrder)}
+            disabled={disabled}
+          />
+        </DefinitionItem>
+      </div>
     </dl>
   )
 }
