@@ -1,6 +1,7 @@
 import {
   DEFAULT_SEARCH_SORT,
   MIN_SEARCH_QUERY_LENGTH,
+  REPOSITORY_SEARCH_ERROR_MESSAGES,
   SEARCH_ORDER,
   SearchOrder,
   SearchSort,
@@ -75,15 +76,14 @@ export async function fetchRepositories({
   if (response.status === 403) {
     return {
       success: false,
-      message:
-        "GitHub APIの利用上限に達しました。しばらく時間をおいて再度お試しください。",
+      message: REPOSITORY_SEARCH_ERROR_MESSAGES.RATE_LIMIT,
     }
   }
 
   if (!response.ok) {
     return {
       success: false,
-      message: "リポジトリの取得に失敗しました。",
+      message: REPOSITORY_SEARCH_ERROR_MESSAGES.FETCH_FAILED,
     }
   }
 

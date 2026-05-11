@@ -51,3 +51,11 @@ export const SEARCH_SORT_LABELS: Record<SearchSort, string> = {
   updated: "更新日",
 }
 
+/**
+ * 検索エラーのメッセージ
+ */
+export const REPOSITORY_SEARCH_ERROR_MESSAGES = {
+  RATE_LIMIT:
+    "GitHub APIの利用上限に達しました。しばらく時間をおいて再度お試しください。",
+  FETCH_FAILED: "リポジトリの取得に失敗しました。",
+} as const
