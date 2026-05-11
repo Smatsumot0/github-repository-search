@@ -5,6 +5,7 @@ import { afterEach, describe, expect, it, vi } from "vitest"
 import {
   DEFAULT_SEARCH_PER_PAGE,
   DEFAULT_SEARCH_SORT,
+  REPOSITORY_SEARCH_MESSAGES,
   SEARCH_ORDER,
 } from "@/lib/constants/search"
 import { GITHUB_API_BASE_URL } from "@/lib/github/constants"
@@ -123,6 +124,51 @@ describe("RepositorySearch integration", () => {
     })
 
     expect(link).toHaveAttribute("href", "/repositories/facebook/react")
+  })
+
+  it("検索結果がある場合、総件数を表示する", async () => {
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, () => {
+        return HttpResponse.json({
+          ...mockGitHubSearchResponse,
+          total_count: 12345,
+        })
+      }),
+    )
+
+    const ui = await RepositorySearch({
+      searchParams: createSearchParams("react"),
+    })
+
+    render(ui)
+
+    expect(
+      await screen.findByText(REPOSITORY_SEARCH_MESSAGES.TOTAL_COUNT(12345)),
+    ).toBeInTheDocument()
+  })
+
+  it("検索結果が0件の場合、0件メッセージを表示し、総件数は表示しない", async () => {
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, () => {
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
+
+    const ui = await RepositorySearch({
+      searchParams: createSearchParams("zzzzzz-not-found"),
+    })
+
+    render(ui)
+
+    expect(
+      await screen.findByText(REPOSITORY_SEARCH_MESSAGES.NO_RESULTS),
+    ).toBeInTheDocument()
+
+    expect(screen.queryByText(/検索結果 .* 件/)).not.toBeInTheDocument()
   })
 
   it("検索結果が0件の場合、0件メッセージを表示する", async () => {
