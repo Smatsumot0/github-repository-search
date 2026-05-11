@@ -3,9 +3,10 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 
-import { Button, Loading, Section } from "@/components"
+import { Loading, Section } from "@/components"
 import { Repository } from "@/lib/github/types"
 
+import { DisclosureButton } from "./components/disclosure-button/DisclosureButton"
 import {
   FilterOptions,
   FilterToolbar,
@@ -63,6 +64,9 @@ export function RepositorySearchClient({
     router.replace(`${pathname}?${params.toString()}`)
   }
 
+  const isOpenSearchPanel = openPanel === "search"
+  const isOpenFilterPanel = openPanel === "filter"
+
   return (
     <Section aria-label="GitHubリポジトリの検索">
       <div className={styles.controls}>
@@ -79,27 +83,27 @@ export function RepositorySearchClient({
           </div>
 
           <div className={styles.mobileToggleButtons}>
-            <Button
+            <DisclosureButton
               className={styles.toggleButton}
               onClick={() => togglePanel("search")}
-              aria-expanded={openPanel === "search"}
+              expanded={isOpenSearchPanel}
               aria-controls="search-toolbar-content">
               検索オプション
-            </Button>
+            </DisclosureButton>
 
-            <Button
+            <DisclosureButton
               className={styles.toggleButton}
               onClick={() => togglePanel("filter")}
-              aria-expanded={openPanel === "filter"}
+              expanded={isOpenFilterPanel}
               aria-controls="filter-toolbar-content">
               フィルターオプション
-            </Button>
+            </DisclosureButton>
           </div>
 
           <div
             id="search-toolbar-content"
             className={styles.actionsContent}
-            data-open={openPanel === "search"}>
+            data-open={isOpenSearchPanel}>
             <SearchToolbar
               searchOptions={searchOptions}
               disabled={isPending}
@@ -111,7 +115,7 @@ export function RepositorySearchClient({
           <div
             id="filter-toolbar-content"
             className={styles.actionsContent}
-            data-open={openPanel === "filter"}>
+            data-open={isOpenFilterPanel}>
             <FilterToolbar
               filterOptions={filterOptions}
               disabled={isPending}
