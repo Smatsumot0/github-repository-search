@@ -1,8 +1,9 @@
 import { DefinitionItem } from "@/components"
 import { LanguageFilter } from "@/features/repository-search/components/filter-toolbar/components/language-filter/LanguageFilter"
+import { LanguageFilterValue } from "@/lib/constants/language"
 
 type FilterToolbarProps = {
-  language: string
+  language?: LanguageFilterValue
   disabled?: boolean
   onChange: (param: string, nextValue: string) => void
 }

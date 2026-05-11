@@ -1,6 +1,8 @@
+import { buildRepositorySearchQuery } from "@/features/repository-search/utils/buildRepositorySearchQuery"
 import {
   DEFAULT_SEARCH_SORT,
   MIN_SEARCH_QUERY_LENGTH,
+  PushedPeriod,
   REPOSITORY_SEARCH_ERROR_MESSAGES,
   SEARCH_ORDER,
   SearchOrder,
@@ -8,7 +10,6 @@ import {
 } from "@/lib/constants/search"
 import { GITHUB_API_BASE_URL } from "@/lib/github/constants"
 import { mapRepository } from "@/lib/github/mapper"
-import { isLanguageFilterValue } from "@/lib/github/validators"
 
 import { Repository, SearchRepositoriesResponse } from "./types"
 
@@ -19,6 +20,9 @@ type FetchRepositoriesParams = {
   sort?: SearchSort
   order?: SearchOrder
   language?: string
+  minStars?: number
+  excludeForks?: boolean
+  pushed?: PushedPeriod
 }
 
 type SearchRepositoriesResult = {
@@ -43,6 +47,9 @@ export async function fetchRepositories({
   sort,
   order,
   language,
+  minStars,
+  excludeForks,
+  pushed,
 }: FetchRepositoriesParams): Promise<FetchRepositoriesResult> {
   const searchQuery = query.trim()
 
@@ -56,14 +63,13 @@ export async function fetchRepositories({
     }
   }
 
-  // Filter Validation
-  const validatedLanguage =
-    language && isLanguageFilterValue(language) ? language : ""
-
-  // Filtered Search Query
-  const repositorySearchQuery = validatedLanguage
-    ? `${searchQuery} language:${validatedLanguage}`
-    : searchQuery
+  const repositorySearchQuery = buildRepositorySearchQuery({
+    query: searchQuery,
+    language,
+    minStars,
+    excludeForks,
+    pushed,
+  })
 
   const params = new URLSearchParams({
     q: repositorySearchQuery,
@@ -107,4 +113,3 @@ export async function fetchRepositories({
     },
   }
 }
-

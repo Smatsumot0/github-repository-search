@@ -1,25 +1,66 @@
-import { SearchOrder, SearchSort } from "@/lib/constants/search"
+import { parsePage } from "@/features/repository-search/lib/parsePage"
+import {
+  parseExcludeForks,
+  parseLanguage,
+  parseMinStars,
+  parsePushedPeriod,
+} from "@/features/repository-search/utils/validator"
+import {
+  DEFAULT_SEARCH_PER_PAGE,
+  DEFAULT_SEARCH_SORT,
+  SEARCH_ORDER,
+  SEARCH_PER_PAGE_OPTIONS,
+  SEARCH_SORT_OPTIONS,
+} from "@/lib/constants/search"
 import { fetchRepositories } from "@/lib/github/fetchRepositories"
 
 import { RepositorySearchClient } from "./RepositorySearchClient"
 
+type RepositorySearchParams = {
+  q?: string
+  page?: string
+  perPage?: string
+  sort?: string
+  order?: string
+  language?: string
+  minStars?: string
+  excludeForks?: string
+  pushed?: string
+}
+
 type RepositorySearchProps = {
-  query: string
-  page: number
-  perPage: number
-  order: SearchOrder
-  sort: SearchSort
-  language: string
+  searchParams: RepositorySearchParams
 }
 
 export async function RepositorySearch({
-  query,
-  page,
-  perPage,
-  sort,
-  order,
-  language,
+  searchParams,
 }: RepositorySearchProps) {
+  const query = searchParams.q ?? ""
+  const page = parsePage(searchParams.page)
+
+  const requestedPerPage = Number(searchParams.perPage)
+  const perPage = SEARCH_PER_PAGE_OPTIONS.includes(
+    requestedPerPage as (typeof SEARCH_PER_PAGE_OPTIONS)[number],
+  )
+    ? requestedPerPage
+    : DEFAULT_SEARCH_PER_PAGE
+
+  const order =
+    searchParams.order === SEARCH_ORDER.ASC
+      ? SEARCH_ORDER.ASC
+      : SEARCH_ORDER.DESC
+
+  const sort = SEARCH_SORT_OPTIONS.includes(
+    searchParams.sort as (typeof SEARCH_SORT_OPTIONS)[number],
+  )
+    ? (searchParams.sort as (typeof SEARCH_SORT_OPTIONS)[number])
+    : DEFAULT_SEARCH_SORT
+
+  const language = parseLanguage(searchParams.language)
+  const minStars = parseMinStars(searchParams.minStars)
+  const excludeForks = parseExcludeForks(searchParams.excludeForks)
+  const pushed = parsePushedPeriod(searchParams.pushed)
+
   const result = await fetchRepositories({
     query,
     page,
@@ -27,37 +68,30 @@ export async function RepositorySearch({
     sort,
     order,
     language,
+    minStars,
+    excludeForks,
+    pushed,
   })
 
-  if (!result.success) {
-    return (
-      <RepositorySearchClient
-        query={query}
-        page={page}
-        perPage={perPage}
-        totalPages={0}
-        sort={sort}
-        order={order}
-        language={language}
-        repositories={[]}
-        errorMessage={result.message}
-      />
-    )
-  }
-
-  const cappedTotal = Math.min(result.data.totalCount, 1000)
+  const repositories = result.success ? result.data.items : []
+  const totalCount = result.success ? result.data.totalCount : 0
+  const cappedTotal = Math.min(totalCount, 1000)
   const totalPages = Math.ceil(cappedTotal / perPage)
 
   return (
     <RepositorySearchClient
       query={query}
       page={page}
-      perPage={perPage}
       totalPages={totalPages}
-      sort={sort}
-      order={order}
-      language={language}
-      repositories={result.data.items}
+      searchOptions={{ perPage, sort, order }}
+      filterOptions={{
+        language,
+        minStars,
+        excludeForks,
+        pushed,
+      }}
+      repositories={repositories}
+      errorMessage={result.success ? undefined : result.message}
     />
   )
 }

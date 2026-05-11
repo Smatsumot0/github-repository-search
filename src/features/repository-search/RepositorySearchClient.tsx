@@ -4,7 +4,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 
 import { Button, Loading, Section } from "@/components"
-import { SearchOrder, SearchSort } from "@/lib/constants/search"
+import { LanguageFilterValue } from "@/lib/constants/language"
+import { PushedPeriod, SearchOrder, SearchSort } from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 
 import { FilterToolbar } from "./components/filter-toolbar/FilterToolbar"
@@ -14,14 +15,25 @@ import { SearchResults } from "./components/search-results/SearchResults"
 import { SearchToolbar } from "./components/search-toolbar/SearchToolbar"
 import styles from "./RepositorySearch.module.css"
 
+type SearchOptions = {
+  perPage: number
+  sort: SearchSort
+  order: SearchOrder
+}
+
+type FilterOptions = {
+  language?: LanguageFilterValue
+  minStars?: number
+  excludeForks?: boolean
+  pushed?: PushedPeriod
+}
+
 type RepositorySearchClientProps = {
   query: string
   page: number
-  perPage: number
   totalPages: number
-  sort: SearchSort
-  order: SearchOrder
-  language: string
+  searchOptions: SearchOptions
+  filterOptions: FilterOptions
   repositories: Repository[]
   errorMessage?: string
 }
@@ -29,11 +41,9 @@ type RepositorySearchClientProps = {
 export function RepositorySearchClient({
   query,
   page,
-  perPage,
   totalPages,
-  sort,
-  order,
-  language,
+  searchOptions,
+  filterOptions,
   repositories,
   errorMessage,
 }: RepositorySearchClientProps) {
@@ -51,7 +61,12 @@ export function RepositorySearchClient({
   const updateSearchParam = (param: string, nextValue: string) => {
     const params = new URLSearchParams(searchParams)
 
-    params.set(param, nextValue)
+    if (nextValue) {
+      params.set(param, nextValue)
+    } else {
+      params.delete(param)
+    }
+
     params.set("page", "1")
 
     startTransition(() => {
@@ -97,9 +112,7 @@ export function RepositorySearchClient({
             className={styles.actionsContent}
             data-open={openPanel === "search"}>
             <SearchToolbar
-              perPage={perPage}
-              sort={sort}
-              order={order}
+              {...searchOptions}
               disabled={isPending}
               onChange={updateSearchParam}
             />
@@ -110,9 +123,9 @@ export function RepositorySearchClient({
             className={styles.actionsContent}
             data-open={openPanel === "filter"}>
             <FilterToolbar
+              {...filterOptions}
               disabled={isPending}
               onChange={updateSearchParam}
-              language={language}
             />
           </div>
         </div>

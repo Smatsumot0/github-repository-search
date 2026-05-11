@@ -52,6 +52,41 @@ export const SEARCH_SORT_LABELS: Record<SearchSort, string> = {
 }
 
 /**
+ * Stars フィルタ項目オプション
+ */
+export const MIN_STARS_OPTIONS = [
+  { label: "指定なし", value: "" },
+  { label: "10以上", value: "10" },
+  { label: "50以上", value: "50" },
+  { label: "100以上", value: "100" },
+  { label: "500以上", value: "500" },
+  { label: "1000以上", value: "1000" },
+] as const
+
+/**
+ * 最終更新日 フィルタ項目
+ */
+export const PUSHED_PERIOD = {
+  WEEK: "week",
+  MONTH: "month",
+  THREE_MONTHS: "three_months",
+  YEAR: "year",
+} as const
+
+export type PushedPeriod = (typeof PUSHED_PERIOD)[keyof typeof PUSHED_PERIOD]
+
+/**
+ * 最終更新日 フィルタ項目オプション
+ */
+export const PUSHED_PERIOD_OPTIONS = [
+  { label: "指定なし", value: "" },
+  { label: "1週間以内", value: PUSHED_PERIOD.WEEK },
+  { label: "1ヶ月以内", value: PUSHED_PERIOD.MONTH },
+  { label: "3ヶ月以内", value: PUSHED_PERIOD.THREE_MONTHS },
+  { label: "1年以内", value: PUSHED_PERIOD.YEAR },
+] as const
+
+/**
  * 検索エラーのメッセージ
  */
 export const REPOSITORY_SEARCH_ERROR_MESSAGES = {
@@ -59,3 +94,4 @@ export const REPOSITORY_SEARCH_ERROR_MESSAGES = {
     "GitHub APIの利用上限に達しました。しばらく時間をおいて再度お試しください。",
   FETCH_FAILED: "リポジトリの取得に失敗しました。",
 } as const
+
