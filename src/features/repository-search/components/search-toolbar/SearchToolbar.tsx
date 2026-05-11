@@ -1,8 +1,6 @@
-"use client"
+import clsx from "clsx"
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-
-import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
+import { DefinitionItem } from "@/components"
 import { SearchOrder, SearchSort } from "@/lib/constants/search"
 
 import { OrderToggle } from "./components/order-toggle/OrderToggle"
@@ -15,7 +13,7 @@ type SearchToolbarProps = {
   sort: SearchSort
   order: SearchOrder
   disabled?: boolean
-  startTransition: (callback: () => void) => void
+  onChange: (param: string, nextValue: string) => void
 }
 
 export function SearchToolbar({
@@ -23,53 +21,38 @@ export function SearchToolbar({
   sort,
   order,
   disabled,
-  startTransition,
+  onChange,
 }: SearchToolbarProps) {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
-
-  const handleChange = (param: string, nextValue: string) => {
-    const params = new URLSearchParams(searchParams)
-
-    params.set(param, nextValue)
-    params.set("page", "1")
-
-    startTransition(() => {
-      router.replace(`${pathname}?${params.toString()}`)
-    })
-  }
-
   return (
-    <dl className={styles.toolbar}>
-      <DefinitionItem term="表示件数" layout="horizontal">
-        <PerPageSelect
-          value={perPage}
-          onChange={(nextPerPage) =>
-            handleChange("perPage", String(nextPerPage))
-          }
-          disabled={disabled}
-        />
-      </DefinitionItem>
-
-      <div>
-        <DefinitionItem term="ソート" layout="horizontal">
-          <SortSelect
-            value={sort}
-            onChange={(nextSort) => handleChange("sort", nextSort)}
+    <>
+      <dl className={clsx(styles.toolbar, styles.controlToolbar)}>
+        <DefinitionItem term="表示件数" layout="horizontal">
+          <PerPageSelect
+            value={perPage}
+            onChange={(nextPerPage) => onChange("perPage", String(nextPerPage))}
             disabled={disabled}
           />
         </DefinitionItem>
 
-        <DefinitionItem term="表示順" layout="horizontal" termHidden={true}>
-          <OrderToggle
-            value={order}
-            onChange={(nextOrder) => handleChange("order", nextOrder)}
-            disabled={disabled}
-          />
-        </DefinitionItem>
-      </div>
-    </dl>
+        <div>
+          <DefinitionItem term="ソート" layout="horizontal">
+            <SortSelect
+              value={sort}
+              onChange={(nextSort) => onChange("sort", nextSort)}
+              disabled={disabled}
+            />
+          </DefinitionItem>
+
+          <DefinitionItem term="表示順" layout="horizontal" termHidden={true}>
+            <OrderToggle
+              value={order}
+              onChange={(nextOrder) => onChange("order", nextOrder)}
+              disabled={disabled}
+            />
+          </DefinitionItem>
+        </div>
+      </dl>
+    </>
   )
 }
 

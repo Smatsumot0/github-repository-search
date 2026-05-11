@@ -1,11 +1,13 @@
 "use client"
 
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useState, useTransition } from "react"
 
 import { Button, Loading, Section } from "@/components"
 import { SearchOrder, SearchSort } from "@/lib/constants/search"
 import { Repository } from "@/lib/github/types"
 
+import { FilterToolbar } from "./components/filter-toolbar/FilterToolbar"
 import { Pagination } from "./components/pagination/Pagination"
 import { SearchInput } from "./components/search-input/SearchInput"
 import { SearchResults } from "./components/search-results/SearchResults"
@@ -19,6 +21,7 @@ type RepositorySearchClientProps = {
   totalPages: number
   sort: SearchSort
   order: SearchOrder
+  language: string
   repositories: Repository[]
   errorMessage?: string
 }
@@ -30,11 +33,31 @@ export function RepositorySearchClient({
   totalPages,
   sort,
   order,
+  language,
   repositories,
   errorMessage,
 }: RepositorySearchClientProps) {
   const [isPending, startTransition] = useTransition()
-  const [isOpen, setIsOpen] = useState(false)
+  const [openPanel, setOpenPanel] = useState<"search" | "filter" | null>(null)
+
+  const togglePanel = (panel: "search" | "filter") => {
+    setOpenPanel((prev) => (prev === panel ? null : panel))
+  }
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+
+  const updateSearchParam = (param: string, nextValue: string) => {
+    const params = new URLSearchParams(searchParams)
+
+    params.set(param, nextValue)
+    params.set("page", "1")
+
+    startTransition(() => {
+      router.replace(`${pathname}?${params.toString()}`)
+    })
+  }
 
   return (
     <Section aria-label="GitHubリポジトリの検索">
@@ -42,7 +65,7 @@ export function RepositorySearchClient({
         <SearchInput defaultValue={query} startTransition={startTransition} />
 
         <div className={styles.searchActions}>
-          <div className={styles.actionsContent}>
+          <div>
             <Pagination
               currentPage={page}
               totalPages={totalPages}
@@ -51,24 +74,45 @@ export function RepositorySearchClient({
             />
           </div>
 
-          <Button
-            className={styles.toggleButton}
-            onClick={() => setIsOpen((prev) => !prev)}
-            aria-expanded={isOpen}
-            aria-controls="search-actions-content">
-            検索オプション
-          </Button>
+          <div className={styles.mobileToggleButtons}>
+            <Button
+              className={styles.toggleButton}
+              onClick={() => togglePanel("search")}
+              aria-expanded={openPanel === "search"}
+              aria-controls="search-toolbar-content">
+              検索オプション
+            </Button>
+
+            <Button
+              className={styles.toggleButton}
+              onClick={() => togglePanel("filter")}
+              aria-expanded={openPanel === "filter"}
+              aria-controls="filter-toolbar-content">
+              フィルターオプション
+            </Button>
+          </div>
 
           <div
-            id="search-actions-content"
+            id="search-toolbar-content"
             className={styles.actionsContent}
-            data-open={isOpen}>
+            data-open={openPanel === "search"}>
             <SearchToolbar
               perPage={perPage}
               sort={sort}
               order={order}
               disabled={isPending}
-              startTransition={startTransition}
+              onChange={updateSearchParam}
+            />
+          </div>
+
+          <div
+            id="filter-toolbar-content"
+            className={styles.actionsContent}
+            data-open={openPanel === "filter"}>
+            <FilterToolbar
+              disabled={isPending}
+              onChange={updateSearchParam}
+              language={language}
             />
           </div>
         </div>

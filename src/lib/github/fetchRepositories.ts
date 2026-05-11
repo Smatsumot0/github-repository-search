@@ -8,6 +8,7 @@ import {
 } from "@/lib/constants/search"
 import { GITHUB_API_BASE_URL } from "@/lib/github/constants"
 import { mapRepository } from "@/lib/github/mapper"
+import { isLanguageFilterValue } from "@/lib/github/validators"
 
 import { Repository, SearchRepositoriesResponse } from "./types"
 
@@ -17,6 +18,7 @@ type FetchRepositoriesParams = {
   perPage?: number
   sort?: SearchSort
   order?: SearchOrder
+  language?: string
 }
 
 type SearchRepositoriesResult = {
@@ -40,6 +42,7 @@ export async function fetchRepositories({
   perPage,
   sort,
   order,
+  language,
 }: FetchRepositoriesParams): Promise<FetchRepositoriesResult> {
   const searchQuery = query.trim()
 
@@ -53,10 +56,17 @@ export async function fetchRepositories({
     }
   }
 
-  console.log(sort)
+  // Filter Validation
+  const validatedLanguage =
+    language && isLanguageFilterValue(language) ? language : ""
+
+  // Filtered Search Query
+  const repositorySearchQuery = validatedLanguage
+    ? `${searchQuery} language:${validatedLanguage}`
+    : searchQuery
 
   const params = new URLSearchParams({
-    q: searchQuery,
+    q: repositorySearchQuery,
     per_page: String(perPage),
     page: String(page),
     order: order ?? SEARCH_ORDER.ASC,

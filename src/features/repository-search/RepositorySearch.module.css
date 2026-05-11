@@ -14,9 +14,10 @@
 .searchActions {
   display: grid;
   grid-template-columns: max-content 1fr;
+  gap: var(--gap-sm);
 }
 
-.toggleButton {
+.mobileToggleButtons {
   display: none;
 }
 
@@ -31,8 +32,9 @@
     gap: var(--gap-sm);
   }
 
-  .toggleButton {
-    display: block;
+  .mobileToggleButtons {
+    display: flex;
+    gap: var(--gap-sm);
   }
 
   .actionsContent[data-open="false"] {

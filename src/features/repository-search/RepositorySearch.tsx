@@ -9,6 +9,7 @@ type RepositorySearchProps = {
   perPage: number
   order: SearchOrder
   sort: SearchSort
+  language: string
 }
 
 export async function RepositorySearch({
@@ -17,8 +18,16 @@ export async function RepositorySearch({
   perPage,
   sort,
   order,
+  language,
 }: RepositorySearchProps) {
-  const result = await fetchRepositories({ query, page, perPage, sort, order })
+  const result = await fetchRepositories({
+    query,
+    page,
+    perPage,
+    sort,
+    order,
+    language,
+  })
 
   if (!result.success) {
     return (
@@ -29,6 +38,7 @@ export async function RepositorySearch({
         totalPages={0}
         sort={sort}
         order={order}
+        language={language}
         repositories={[]}
         errorMessage={result.message}
       />
@@ -46,6 +56,7 @@ export async function RepositorySearch({
       totalPages={totalPages}
       sort={sort}
       order={order}
+      language={language}
       repositories={result.data.items}
     />
   )
