@@ -1,10 +1,3 @@
-import { parsePage } from "@/features/repository-search/lib/parsePage"
-import {
-  parseExcludeForks,
-  parseLanguage,
-  parseMinStars,
-  parsePushedPeriod,
-} from "@/features/repository-search/utils/validator"
 import {
   DEFAULT_SEARCH_PER_PAGE,
   DEFAULT_SEARCH_SORT,
@@ -15,6 +8,13 @@ import {
 import { fetchRepositories } from "@/lib/github/fetchRepositories"
 
 import { RepositorySearchClient } from "./RepositorySearchClient"
+import {
+  parseExcludeForks,
+  parseLanguage,
+  parseMinStars,
+  parsePage,
+  parsePushedPeriod,
+} from "./utils/validator"
 
 type RepositorySearchParams = {
   q?: string

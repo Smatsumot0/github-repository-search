@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { parsePage } from "./parsePage"
+import { parsePage } from "./validator"
 
 describe("parsePage()", () => {
   it("有効なページ番号を返す", () => {

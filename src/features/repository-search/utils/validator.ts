@@ -5,6 +5,26 @@ import {
 import { PUSHED_PERIOD, PushedPeriod } from "@/lib/constants/search"
 
 /**
+ * page パラメータを有効なページ番号へ変換する
+ *
+ * 配列の場合は先頭の値を使用する。
+ * 不正な値、未指定、1未満の場合は 1 を返す。
+ *
+ * @param page URLパラメータの page
+ * @returns 1以上のページ番号
+ */
+export function parsePage(page: string | string[] | undefined) {
+  const value = Array.isArray(page) ? page[0] : page
+  const parsed = Math.floor(Number(value))
+
+  if (!Number.isFinite(parsed) || parsed < 1) {
+    return 1
+  }
+
+  return parsed
+}
+
+/**
  * 値が有効な言語フィルターか判定する
  *
  * @param value 判定対象
@@ -86,3 +106,4 @@ export function parsePushedPeriod(
 
   return value as PushedPeriod
 }
+
