@@ -1,5 +1,6 @@
 import { RepositorySearch } from "@/features/repository-search"
 import { parsePage } from "@/features/repository-search/lib/parsePage"
+import { SEARCH_ORDERS } from "@/features/repository-search/types"
 import {
   DEFAULT_SEARCH_PER_PAGE,
   SEARCH_PER_PAGE_OPTIONS,
@@ -10,6 +11,7 @@ type HomeProps = {
     q?: string
     page?: string
     perPage?: string
+    order?: string
   }>
 }
 
@@ -22,12 +24,15 @@ export default async function Home({ searchParams }: HomeProps) {
   )
     ? requestedPerPage
     : DEFAULT_SEARCH_PER_PAGE
+  const order =
+    params.order === SEARCH_ORDERS.ASC ? SEARCH_ORDERS.ASC : SEARCH_ORDERS.DESC
 
   return (
     <RepositorySearch
       query={params.q ?? ""}
       page={pageNumber}
       perPage={perPage}
+      order={order}
     />
   )
 }

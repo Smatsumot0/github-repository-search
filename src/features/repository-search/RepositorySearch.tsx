@@ -1,17 +1,20 @@
 import { fetchRepositories } from "@/lib/github/fetchRepositories"
 
 import { RepositorySearchClient } from "./RepositorySearchClient"
+import { SearchOrder } from "./types"
 
 type RepositorySearchProps = {
   query: string
   page: number
   perPage: number
+  order: SearchOrder
 }
 
 export async function RepositorySearch({
   query,
   page,
   perPage,
+  order,
 }: RepositorySearchProps) {
   const result = await fetchRepositories({ query, page, perPage })
   const cappedTotal = Math.min(result.totalCount, 1000)
@@ -23,6 +26,7 @@ export async function RepositorySearch({
       page={page}
       perPage={perPage}
       totalPages={totalPages}
+      order={order}
       repositories={result.items}
     />
   )

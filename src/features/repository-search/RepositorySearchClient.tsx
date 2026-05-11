@@ -10,12 +10,14 @@ import { SearchInput } from "./components/search-input/SearchInput"
 import { SearchResults } from "./components/search-results/SearchResults"
 import { SearchToolbar } from "./components/search-toolbar/SearchToolbar"
 import styles from "./RepositorySearch.module.css"
+import { SearchOrder } from "./types"
 
 type RepositorySearchClientProps = {
   query: string
   page: number
   perPage: number
   totalPages: number
+  order: SearchOrder
   repositories: Repository[]
 }
 
@@ -24,6 +26,7 @@ export function RepositorySearchClient({
   page,
   perPage,
   totalPages,
+  order,
   repositories,
 }: RepositorySearchClientProps) {
   const [isPending, startTransition] = useTransition()
@@ -40,7 +43,12 @@ export function RepositorySearchClient({
             disabled={isPending}
             startTransition={startTransition}
           />
-          <SearchToolbar perPage={perPage} disabled={isPending} />
+          <SearchToolbar
+            perPage={perPage}
+            order={order}
+            disabled={isPending}
+            startTransition={startTransition}
+          />
         </div>
       </div>
 
