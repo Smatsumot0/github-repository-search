@@ -1,4 +1,4 @@
-import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
+import { DefinitionItem } from "@/components"
 import { LanguageFilter } from "@/features/repository-search/components/filter-toolbar/components/language-filter/LanguageFilter"
 
 type FilterToolbarProps = {

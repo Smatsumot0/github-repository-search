@@ -1,5 +1,4 @@
-import { LanguageBadge } from "@/components"
-import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
+import { DefinitionItem, LanguageBadge } from "@/components"
 
 import styles from "./RepositorySummary.module.css"
 

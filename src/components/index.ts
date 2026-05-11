@@ -1,5 +1,6 @@
 export * from "./anchor/Anchor"
 export * from "./button/Button"
+export * from "./definition-item/DefinitionItem"
 export * from "./footer/Footer"
 export * from "./header/Header"
 export * from "./input/Input"

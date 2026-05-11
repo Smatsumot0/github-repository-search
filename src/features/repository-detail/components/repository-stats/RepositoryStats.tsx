@@ -1,4 +1,4 @@
-import { DefinitionItem } from "@/components/definition-item/DefinitionItem"
+import { DefinitionItem } from "@/components"
 
 import styles from "./RepositoryStats.module.css"
 
