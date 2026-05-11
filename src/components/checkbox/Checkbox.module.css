@@ -1,0 +1,6 @@
+.checkbox {
+  inline-size: 1rem;
+  block-size: 1rem;
+  cursor: pointer;
+  accent-color: var(--color-accent);
+}
