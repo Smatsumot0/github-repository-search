@@ -1,7 +1,8 @@
+import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { RepositoryDetail } from "@/features/repository-detail"
-import { fetchRepository } from "@/lib/github/fetchRepository"
+import { getRepository } from "@/lib/github/getRepository"
 
 type RepositoryDetailPageProps = {
   params: Promise<{
@@ -10,12 +11,30 @@ type RepositoryDetailPageProps = {
   }>
 }
 
+export async function generateMetadata({
+  params,
+}: RepositoryDetailPageProps): Promise<Metadata> {
+  const { owner, repo } = await params
+  const repository = await getRepository({ owner, repo })
+
+  if (repository === null) {
+    return {
+      title: "Repository Not Found",
+    }
+  }
+
+  return {
+    title: repository.fullName,
+    description:
+      repository.description ?? `${repository.fullName} repository details`,
+  }
+}
+
 export default async function RepositoryDetailPage({
   params,
 }: RepositoryDetailPageProps) {
   const { owner, repo } = await params
-
-  const repository = await fetchRepository({ owner, repo })
+  const repository = await getRepository({ owner, repo })
 
   if (repository === null) {
     notFound()
@@ -23,3 +42,4 @@ export default async function RepositoryDetailPage({
 
   return <RepositoryDetail repository={repository} />
 }
+
