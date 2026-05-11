@@ -1,5 +1,6 @@
 "use client"
 
+import clsx from "clsx"
 import { useOptimistic } from "react"
 
 import { DefinitionItem } from "@/components"
@@ -49,8 +50,11 @@ export function SearchToolbar({
   }
 
   return (
-    <dl className={styles.toolbar}>
-      <DefinitionItem term="表示件数" layout="horizontal">
+    <dl className={clsx("toolbar", styles.toolbar)}>
+      <DefinitionItem
+        term="表示件数"
+        layout="horizontal"
+        className={clsx("toolbar-group", styles.group)}>
         <PerPageSelect
           value={optimisticOptions.perPage}
           onChange={(nextPerPage) =>
@@ -62,7 +66,10 @@ export function SearchToolbar({
         />
       </DefinitionItem>
 
-      <DefinitionItem term="ソート" layout="horizontal">
+      <DefinitionItem
+        term="ソート"
+        layout="horizontal"
+        className={clsx("toolbar-group", styles.group)}>
         <SortSelect
           value={optimisticOptions.sort}
           onChange={(nextSort) =>
@@ -74,7 +81,11 @@ export function SearchToolbar({
         />
       </DefinitionItem>
 
-      <DefinitionItem term="表示順" layout="horizontal" termHidden>
+      <DefinitionItem
+        term="表示順"
+        layout="horizontal"
+        termHidden
+        className={clsx("toolbar-group", styles.group)}>
         <OrderToggle
           value={optimisticOptions.order}
           onChange={(nextOrder) =>
@@ -88,4 +99,3 @@ export function SearchToolbar({
     </dl>
   )
 }
-

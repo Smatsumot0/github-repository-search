@@ -4,6 +4,7 @@
 @import "./tokens/radius.css";
 @import "./tokens/gap.css";
 @import "./tokens/language-colors.css";
+@import "./toolbar.css";
 
 html {
   height: 100%;

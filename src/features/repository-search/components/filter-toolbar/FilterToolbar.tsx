@@ -1,3 +1,4 @@
+import clsx from "clsx"
 import { useOptimistic } from "react"
 
 import { Checkbox, DefinitionItem } from "@/components"
@@ -49,8 +50,11 @@ export function FilterToolbar({
   }
 
   return (
-    <dl className={styles.toolbar}>
-      <DefinitionItem term="言語" layout="horizontal">
+    <dl className={clsx("toolbar", styles.toolbar)}>
+      <DefinitionItem
+        term="言語"
+        layout="horizontal"
+        className={clsx("toolbar-group", styles.group)}>
         <LanguageFilter
           value={optimisticOptions.language ?? ""}
           disabled={disabled}
@@ -62,7 +66,10 @@ export function FilterToolbar({
         />
       </DefinitionItem>
 
-      <DefinitionItem term="Star" layout="horizontal">
+      <DefinitionItem
+        term="Star"
+        layout="horizontal"
+        className={clsx("toolbar-group", styles.group)}>
         <MinStarsFilter
           value={optimisticOptions.minStars}
           disabled={disabled}
@@ -74,7 +81,10 @@ export function FilterToolbar({
         />
       </DefinitionItem>
 
-      <DefinitionItem term="更新日時" layout="horizontal">
+      <DefinitionItem
+        term="更新日時"
+        layout="horizontal"
+        className={clsx("toolbar-group", styles.group)}>
         <PushedFilter
           value={optimisticOptions.pushed}
           disabled={disabled}
@@ -89,7 +99,8 @@ export function FilterToolbar({
       <DefinitionItem
         term="Fork除外"
         layout="horizontal"
-        htmlFor="exclude-forks">
+        htmlFor="exclude-forks"
+        className={clsx("toolbar-group", styles.group)}>
         <Checkbox
           id="exclude-forks"
           checked={optimisticOptions.excludeForks ?? false}
