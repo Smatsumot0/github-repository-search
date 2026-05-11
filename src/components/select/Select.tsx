@@ -9,7 +9,7 @@ type SelectOption<T extends string | number> = {
 }
 
 type SelectProps<T extends string | number> = {
-  options: SelectOption<T>[]
+  options: readonly SelectOption<T>[]
   value?: T
   onChange: (value: T) => void
   placeholder?: string
@@ -47,3 +47,4 @@ export function Select<T extends string | number>({
     </select>
   )
 }
+
