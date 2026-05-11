@@ -6,12 +6,14 @@ import styles from "./SearchResults.module.css"
 
 type SearchResultsProps = {
   repositories: Repository[]
+  totalCount?: number
   query?: string
   errorMessage?: string
 }
 
 export function SearchResults({
   repositories,
+  totalCount,
   query,
   errorMessage,
 }: SearchResultsProps) {
@@ -38,13 +40,19 @@ export function SearchResults({
 
   // 検索結果あり
   return (
-    <ul className={styles.list} aria-label="検索結果">
-      {repositories.map((repository) => (
-        <li key={repository.id} className={styles.item}>
-          <RepositoryCard repository={repository} />
-        </li>
-      ))}
-    </ul>
+    <div className={styles.root}>
+      <p className={styles.totalCount}>
+        検索結果 {totalCount?.toLocaleString() ?? 0} 件
+      </p>
+
+      <ul className={styles.list} aria-label="検索結果">
+        {repositories.map((repository) => (
+          <li key={repository.id} className={styles.item}>
+            <RepositoryCard repository={repository} />
+          </li>
+        ))}
+      </ul>
+    </div>
   )
 }
 

@@ -25,6 +25,7 @@ type RepositorySearchClientProps = {
   query: string
   page: number
   totalPages: number
+  totalCount: number
   searchOptions: SearchOptions
   filterOptions: FilterOptions
   repositories: Repository[]
@@ -35,6 +36,7 @@ export function RepositorySearchClient({
   query,
   page,
   totalPages,
+  totalCount,
   searchOptions,
   filterOptions,
   repositories,
@@ -130,6 +132,7 @@ export function RepositorySearchClient({
 
         <SearchResults
           repositories={repositories}
+          totalCount={totalCount}
           query={query}
           errorMessage={errorMessage}
         />

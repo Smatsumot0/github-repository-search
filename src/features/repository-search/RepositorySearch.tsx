@@ -83,6 +83,7 @@ export async function RepositorySearch({
       query={query}
       page={page}
       totalPages={totalPages}
+      totalCount={totalCount}
       searchOptions={{ perPage, sort, order }}
       filterOptions={{
         language,
