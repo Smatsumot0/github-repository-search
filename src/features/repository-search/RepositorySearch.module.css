@@ -28,6 +28,7 @@
 
 .resultsArea {
   position: relative;
+  min-height: 240px;
 }
 
 /*===== Mobile =====*/

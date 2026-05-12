@@ -23,5 +23,6 @@
 .message {
   color: var(--color-text-secondary);
   text-align: center;
+  padding-block: var(--space-3);
 }
 
