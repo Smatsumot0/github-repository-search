@@ -8,10 +8,15 @@ import styles from "./RepositoryCard.module.css"
 
 type RepositoryCardProps = {
   repository: Repository
+  returnTo: string
 }
 
-export function RepositoryCard({ repository }: RepositoryCardProps) {
-  const href = `/repositories/${encodeURIComponent(repository.owner.login)}/${encodeURIComponent(repository.name)}`
+export function RepositoryCard({ repository, returnTo }: RepositoryCardProps) {
+  const href = `/repositories/${encodeURIComponent(
+    repository.owner.login,
+  )}/${encodeURIComponent(repository.name)}?returnTo=${encodeURIComponent(
+    returnTo,
+  )}`
 
   return (
     <article className={styles.card}>

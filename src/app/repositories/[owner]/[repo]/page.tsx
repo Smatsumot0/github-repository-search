@@ -9,6 +9,9 @@ type RepositoryDetailPageProps = {
     owner: string
     repo: string
   }>
+  searchParams: Promise<{
+    returnTo?: string
+  }>
 }
 
 export async function generateMetadata({
@@ -32,14 +35,16 @@ export async function generateMetadata({
 
 export default async function RepositoryDetailPage({
   params,
+  searchParams,
 }: RepositoryDetailPageProps) {
   const { owner, repo } = await params
   const repository = await getRepository({ owner, repo })
+  const returnTo = (await searchParams).returnTo
 
   if (repository === null) {
     notFound()
   }
 
-  return <RepositoryDetail repository={repository} />
+  return <RepositoryDetail repository={repository} returnTo={returnTo} />
 }
 

@@ -53,6 +53,11 @@ export function RepositorySearchClient({
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
+  const currentQueryString = searchParams.toString()
+  const returnTo = currentQueryString
+    ? `${pathname}?${currentQueryString}`
+    : pathname
+
   const updateSearchParam = (param: string, nextValue: string) => {
     const params = new URLSearchParams(searchParams)
 
@@ -135,6 +140,7 @@ export function RepositorySearchClient({
           totalCount={totalCount}
           query={query}
           errorMessage={errorMessage}
+          returnTo={returnTo}
         />
       </div>
     </Section>

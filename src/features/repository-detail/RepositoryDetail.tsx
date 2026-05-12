@@ -1,3 +1,4 @@
+import { Anchor } from "@/components"
 import { Repository } from "@/lib/github/types"
 
 import { RepositoryHeader } from "./components/repository-header/RepositoryHeader"
@@ -9,9 +10,13 @@ import styles from "./RepositoryDetail.module.css"
 
 type RepositoryDetailProps = {
   repository: Repository
+  returnTo?: string
 }
 
-export function RepositoryDetail({ repository }: RepositoryDetailProps) {
+export function RepositoryDetail({
+  repository,
+  returnTo = "/",
+}: RepositoryDetailProps) {
   return (
     <article className={styles.detail}>
       <RepositoryHeader
@@ -45,6 +50,10 @@ export function RepositoryDetail({ repository }: RepositoryDetailProps) {
           pushedAt={repository.pushedAt}
         />
       </div>
+
+      <Anchor href={returnTo} appearance="outlined">
+        検索結果に戻る
+      </Anchor>
     </article>
   )
 }

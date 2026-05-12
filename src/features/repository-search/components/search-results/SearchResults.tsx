@@ -12,6 +12,7 @@ type SearchResultsProps = {
   totalCount?: number
   query?: string
   errorMessage?: string
+  returnTo: string
 }
 
 export function SearchResults({
@@ -19,6 +20,7 @@ export function SearchResults({
   totalCount,
   query,
   errorMessage,
+  returnTo,
 }: SearchResultsProps) {
   // エラーメッセージがある場合
   if (errorMessage) {
@@ -51,7 +53,7 @@ export function SearchResults({
       <ul className={styles.list} aria-label="検索結果">
         {repositories.map((repository) => (
           <li key={repository.id} className={styles.item}>
-            <RepositoryCard repository={repository} />
+            <RepositoryCard repository={repository} returnTo={returnTo} />
           </li>
         ))}
       </ul>
