@@ -3,6 +3,7 @@ import { setupServer } from "msw/node"
 import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest"
 
 import {
+  DEFAULT_SEARCH_PER_PAGE,
   REPOSITORY_SEARCH_ERROR_MESSAGES,
   SEARCH_ORDER,
 } from "@/lib/constants/search"
@@ -104,6 +105,28 @@ describe("fetchRepositories()", () => {
     expect(requestUrl?.searchParams.get("per_page")).toBe("10")
   })
 
+  it("perPage未指定の場合、デフォルト値をper_pageクエリとして送信する", async () => {
+    let requestUrl: URL | undefined
+
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
+        requestUrl = new URL(request.url)
+
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
+
+    await fetchRepositories({ query: "test", page: 1 })
+
+    expect(requestUrl?.searchParams.get("per_page")).toBe(
+      String(DEFAULT_SEARCH_PER_PAGE),
+    )
+  })
+
   it("指定したsortをsortクエリとして送信する", async () => {
     let requestUrl: URL | undefined
 
@@ -119,9 +142,35 @@ describe("fetchRepositories()", () => {
       }),
     )
 
-    await fetchRepositories({ query: "test", page: 1, sort: "best-match" })
+    await fetchRepositories({ query: "test", page: 1, sort: "updated" })
 
-    expect(requestUrl?.searchParams.get("sort")).toBe("best-match")
+    expect(requestUrl?.searchParams.get("sort")).toBe("updated")
+  })
+
+  it("sortがbest-matchの場合、sortとorderクエリを送信しない", async () => {
+    let requestUrl: URL | undefined
+
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
+        requestUrl = new URL(request.url)
+
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
+
+    await fetchRepositories({
+      query: "test",
+      page: 1,
+      sort: "best-match",
+      order: SEARCH_ORDER.DESC,
+    })
+
+    expect(requestUrl?.searchParams.has("sort")).toBe(false)
+    expect(requestUrl?.searchParams.has("order")).toBe(false)
   })
 
   it("指定したorderをorderクエリとして送信する", async () => {
@@ -148,6 +197,26 @@ describe("fetchRepositories()", () => {
 
     expect(requestUrl).toBeDefined()
     expect(requestUrl?.searchParams.get("order")).toBe(SEARCH_ORDER.ASC)
+  })
+
+  it("order未指定の場合、descをorderクエリとして送信する", async () => {
+    let requestUrl: URL | undefined
+
+    server.use(
+      http.get(`${GITHUB_API_BASE_URL}/search/repositories`, ({ request }) => {
+        requestUrl = new URL(request.url)
+
+        return HttpResponse.json({
+          total_count: 0,
+          incomplete_results: false,
+          items: [],
+        })
+      }),
+    )
+
+    await fetchRepositories({ query: "test", page: 1, sort: "stars" })
+
+    expect(requestUrl?.searchParams.get("order")).toBe(SEARCH_ORDER.DESC)
   })
 
   it("GitHub APIのレート制限に達した場合、専用のエラーメッセージを返す", async () => {
@@ -180,4 +249,3 @@ describe("fetchRepositories()", () => {
     })
   })
 })
-

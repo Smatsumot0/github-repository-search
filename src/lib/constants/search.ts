@@ -15,6 +15,11 @@ export const SEARCH_DEBOUNCE_DELAY_MS = 400
 export const SEARCH_PER_PAGE_OPTIONS = [10, 20, 30, 50, 100] as const
 
 /**
+ * GitHub Search API が返せる検索結果の最大件数
+ */
+export const GITHUB_SEARCH_RESULT_LIMIT = 1000
+
+/**
  * 検索結果の1ページあたりの表示件数デフォルト値
  */
 export const DEFAULT_SEARCH_PER_PAGE = 20
@@ -97,4 +102,3 @@ export const REPOSITORY_SEARCH_ERROR_MESSAGES = {
     "GitHub APIの利用上限に達しました。しばらく時間をおいて再度お試しください。",
   FETCH_FAILED: "リポジトリの取得に失敗しました。",
 } as const
-

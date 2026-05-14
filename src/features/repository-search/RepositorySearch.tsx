@@ -1,6 +1,7 @@
 import {
   DEFAULT_SEARCH_PER_PAGE,
   DEFAULT_SEARCH_SORT,
+  GITHUB_SEARCH_RESULT_LIMIT,
   SEARCH_ORDER,
   SEARCH_PER_PAGE_OPTIONS,
   SEARCH_SORT_OPTIONS,
@@ -36,7 +37,6 @@ export async function RepositorySearch({
   searchParams,
 }: RepositorySearchProps) {
   const query = searchParams.q ?? ""
-  const page = parsePage(searchParams.page)
 
   const requestedPerPage = Number(searchParams.perPage)
   const perPage = SEARCH_PER_PAGE_OPTIONS.includes(
@@ -44,6 +44,8 @@ export async function RepositorySearch({
   )
     ? requestedPerPage
     : DEFAULT_SEARCH_PER_PAGE
+  const maxSearchPage = Math.ceil(GITHUB_SEARCH_RESULT_LIMIT / perPage)
+  const page = Math.min(parsePage(searchParams.page), maxSearchPage)
 
   const order =
     searchParams.order === SEARCH_ORDER.ASC
@@ -96,4 +98,3 @@ export async function RepositorySearch({
     />
   )
 }
-

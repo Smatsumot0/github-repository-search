@@ -1,5 +1,6 @@
 import { buildRepositorySearchQuery } from "@/features/repository-search/utils/buildRepositorySearchQuery"
 import {
+  DEFAULT_SEARCH_PER_PAGE,
   DEFAULT_SEARCH_SORT,
   MIN_SEARCH_QUERY_LENGTH,
   PushedPeriod,
@@ -73,11 +74,15 @@ export async function fetchRepositories({
 
   const params = new URLSearchParams({
     q: repositorySearchQuery,
-    per_page: String(perPage),
+    per_page: String(perPage ?? DEFAULT_SEARCH_PER_PAGE),
     page: String(page),
-    order: order ?? SEARCH_ORDER.ASC,
-    sort: sort ?? DEFAULT_SEARCH_SORT,
   })
+  const requestedSort = sort ?? DEFAULT_SEARCH_SORT
+
+  if (requestedSort !== "best-match") {
+    params.set("sort", requestedSort)
+    params.set("order", order ?? SEARCH_ORDER.DESC)
+  }
 
   const response = await fetch(
     `${GITHUB_API_BASE_URL}/search/repositories?${params.toString()}`,
@@ -115,4 +120,3 @@ export async function fetchRepositories({
     },
   }
 }
-
