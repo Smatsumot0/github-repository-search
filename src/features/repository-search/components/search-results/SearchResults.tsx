@@ -12,7 +12,7 @@ type SearchResultsProps = {
   totalCount?: number
   query?: string
   errorMessage?: string
-  returnTo: string
+  returnTo?: string
 }
 
 export function SearchResults({
@@ -60,4 +60,3 @@ export function SearchResults({
     </div>
   )
 }
-

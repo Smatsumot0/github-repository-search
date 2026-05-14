@@ -8,15 +8,17 @@ import styles from "./RepositoryCard.module.css"
 
 type RepositoryCardProps = {
   repository: Repository
-  returnTo: string
+  returnTo?: string
 }
 
 export function RepositoryCard({ repository, returnTo }: RepositoryCardProps) {
-  const href = `/repositories/${encodeURIComponent(
+  const detailPath = `/repositories/${encodeURIComponent(
     repository.owner.login,
-  )}/${encodeURIComponent(repository.name)}?returnTo=${encodeURIComponent(
-    returnTo,
-  )}`
+  )}/${encodeURIComponent(repository.name)}`
+  const href =
+    returnTo && returnTo !== "/"
+      ? `${detailPath}?returnTo=${encodeURIComponent(returnTo)}`
+      : detailPath
 
   return (
     <article className={styles.card}>
@@ -69,4 +71,3 @@ export function RepositoryCard({ repository, returnTo }: RepositoryCardProps) {
     </article>
   )
 }
-

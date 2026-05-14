@@ -14,6 +14,18 @@ type RepositoryDetailPageProps = {
   }>
 }
 
+function sanitizeReturnTo(returnTo: string | undefined): string | undefined {
+  if (!returnTo) {
+    return undefined
+  }
+
+  if (!returnTo.startsWith("/") || returnTo.startsWith("//")) {
+    return undefined
+  }
+
+  return returnTo
+}
+
 export async function generateMetadata({
   params,
 }: RepositoryDetailPageProps): Promise<Metadata> {
@@ -39,7 +51,7 @@ export default async function RepositoryDetailPage({
 }: RepositoryDetailPageProps) {
   const { owner, repo } = await params
   const repository = await getRepository({ owner, repo })
-  const returnTo = (await searchParams).returnTo
+  const returnTo = sanitizeReturnTo((await searchParams).returnTo)
 
   if (repository === null) {
     notFound()
@@ -47,4 +59,3 @@ export default async function RepositoryDetailPage({
 
   return <RepositoryDetail repository={repository} returnTo={returnTo} />
 }
-

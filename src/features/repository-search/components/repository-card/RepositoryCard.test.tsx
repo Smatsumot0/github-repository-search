@@ -82,6 +82,24 @@ describe("RepositoryCard", () => {
     ).toHaveAttribute("href", "/repositories/vercel/next.js")
   })
 
+  it("returnToがある場合、詳細ページリンクに含める", () => {
+    const repository = createRepositoryMock({
+      name: "react",
+      fullName: "facebook/react",
+      owner: {
+        login: "facebook",
+        avatarUrl: "https://github.com/facebook.png",
+        htmlUrl: "https://github.com/facebook",
+      },
+    })
+
+    render(<RepositoryCard repository={repository} returnTo="/?q=react" />)
+
+    expect(
+      screen.getByRole("link", { name: "facebook/react" }),
+    ).toHaveAttribute("href", "/repositories/facebook/react?returnTo=%2F%3Fq%3Dreact")
+  })
+
   it("ownerのアイコンを表示する", () => {
     const repository = createRepositoryMock({
       owner: {
@@ -131,4 +149,3 @@ describe("RepositoryCard", () => {
     )
   })
 })
-
